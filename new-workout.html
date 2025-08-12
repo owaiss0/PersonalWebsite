@@ -1,0 +1,1456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Weekly Workout Plan — Optimized</title>
+<style>
+  :root{
+    --max-w:1200px;
+    --radius:12px;
+    --font-sans:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* Enhanced light theme */
+    --bg-light: #ffffff;
+    --card-light: #f8fafc;
+    --text-light: #1e293b;
+    --muted-light: #64748b;
+    --border-light: #e2e8f0;
+    --accent-light: #3b82f6;
+    --accent-hover-light: #2563eb;
+    --success-light: #10b981;
+    --warning-light: #f59e0b;
+
+    /* Enhanced dark theme */
+    --bg-dark: #0f172a;
+    --card-dark: #1e293b;
+    --text-dark: #f1f5f9;
+    --muted-dark: #94a3b8;
+    --border-dark: #334155;
+    --accent-dark: #60a5fa;
+    --accent-hover-dark: #3b82f6;
+    --success-dark: #34d399;
+    --warning-dark: #fbbf24;
+  }
+
+  /* Theme application with system preference detection */
+  @media (prefers-color-scheme: light) {
+    html:not([data-theme="dark"]) {
+      --bg:var(--bg-light); --card:var(--card-light); --text:var(--text-light);
+      --muted:var(--muted-light); --border:var(--border-light); --accent:var(--accent-light);
+      --accent-hover:var(--accent-hover-light); --success:var(--success-light); --warning:var(--warning-light);
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-theme="light"]) {
+      --bg:var(--bg-dark); --card:var(--card-dark); --text:var(--text-dark);
+      --muted:var(--muted-dark); --border:var(--border-dark); --accent:var(--accent-dark);
+      --accent-hover:var(--accent-hover-dark); --success:var(--success-dark); --warning:var(--warning-dark);
+    }
+  }
+
+  html[data-theme="light"]{
+    --bg:var(--bg-light); --card:var(--card-light); --text:var(--text-light);
+    --muted:var(--muted-light); --border:var(--border-light); --accent:var(--accent-light);
+    --accent-hover:var(--accent-hover-light); --success:var(--success-light); --warning:var(--warning-light);
+  }
+  
+  html[data-theme="dark"]{
+    --bg:var(--bg-dark); --card:var(--card-dark); --text:var(--text-dark);
+    --muted:var(--muted-dark); --border:var(--border-dark); --accent:var(--accent-dark);
+    --accent-hover:var(--accent-hover-dark); --success:var(--success-dark); --warning:var(--warning-dark);
+  }
+
+  /* Reset and base styles */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: clamp(12px, 4vw, 32px);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    transition: var(--transition);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .container {
+    width: 100%;
+    max-width: var(--max-w);
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-content h1 {
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, var(--accent), var(--success));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .header-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .btn:hover, .btn:focus {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+  }
+
+  .btn:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  /* Enhanced tab navigation */
+  .day-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+    padding: 8px;
+    background: var(--card);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--border);
+  }
+
+  .day-tabs::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .day-tabs::-webkit-scrollbar-track {
+    background: var(--border);
+    border-radius: 3px;
+  }
+
+  .day-tabs::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  .day-tab {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: var(--transition);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 60px;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .day-tab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .day-tab:hover::before {
+    left: 100%;
+  }
+
+  .day-tab:hover {
+    background: var(--bg);
+    color: var(--text);
+    border-color: var(--border);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+
+  .day-tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+  }
+
+  /* Content panels with smooth transitions */
+  .day-content {
+    display: none;
+    animation: slideIn 0.3s ease-out;
+  }
+
+  .day-content.active {
+    display: block;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .day-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(16px, 4vw, 24px);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--success));
+  }
+
+  /* Category headers with enhanced styling */
+  .category {
+    color: var(--accent);
+    font-size: 18px;
+    font-weight: 700;
+    margin: 24px 0 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+  }
+
+  .category::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(180deg, var(--accent), var(--success));
+    border-radius: 2px;
+  }
+
+  .category:first-child {
+    margin-top: 0;
+  }
+
+  /* Exercise cards with improved layout */
+  .exercise-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .exercise-card:hover {
+    border-color: var(--accent);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+
+  .exercise-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .exercise-left {
+    flex: 1;
+    min-width: 0; /* Allow text to wrap properly */
+  }
+
+  .exercise-name {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 16px;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .exercise-info {
+    color: var(--muted);
+    font-size: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .exercise-right {
+    flex-shrink: 0;
+  }
+
+  /* Enhanced tutorial links */
+  .tutorial-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .tutorial-link::before {
+    content: '▶';
+    font-size: 10px;
+  }
+
+  .tutorial-link:hover {
+    background: var(--accent-hover);
+    box-shadow: var(--shadow);
+    transform: translateY(-1px);
+  }
+
+  .tutorial-link[aria-disabled="true"] {
+    background: var(--muted);
+    color: white;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .tutorial-link[aria-disabled="true"]::before {
+    content: '✕';
+  }
+
+  /* Rest day special styling */
+  .exercise-card:has(.exercise-name:contains("Rest")) {
+    background: linear-gradient(135deg, var(--card), var(--success));
+    border-color: var(--success);
+  }
+
+  /* Responsive design improvements */
+  @media (max-width: 768px) {
+    .header-content h1 {
+      font-size: 22px;
+    }
+    
+    .day-tabs {
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 6px;
+      padding: 6px;
+    }
+    
+    .day-tab {
+      padding: 10px 6px;
+      font-size: 13px;
+    }
+    
+    .exercise-card {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    
+    .exercise-right {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .category {
+      font-size: 16px;
+      margin: 20px 0 12px 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 12px;
+    }
+    
+    .controls {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .btn {
+      flex: 1;
+      justify-content: center;
+      min-width: 0;
+    }
+    
+    .day-tabs {
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    
+    .day-tab {
+      padding: 8px 4px;
+      font-size: 12px;
+    }
+  }
+
+  @media print {
+  * {
+    -webkit-print-color-adjust: exact !important; 
+    print-color-adjust: exact !important;      
+  }
+    
+    body {
+      background: white !important;
+      color: black !important;
+      padding: 0;
+    }
+    
+    .controls, .day-tabs {
+      display: none !important;
+    }
+    
+    .day-content {
+      display: block !important;
+      page-break-inside: avoid;
+      margin-bottom: 20px;
+    }
+    
+    .exercise-card {
+      background: white !important;
+      border: 1px solid #ccc !important;
+      box-shadow: none !important;
+      page-break-inside: avoid;
+    }
+    
+    .tutorial-link {
+      background: #666 !important;
+      color: white !important;
+    }
+    
+    h1 {
+      color: black !important;
+    }
+    
+    .category {
+      color: #333 !important;
+    }
+  }
+
+  /* Focus management and accessibility */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Loading state */
+  .loading {
+    opacity: 0.5;
+    pointer-events: none;
+    position: relative;
+  }
+
+  .loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Smooth scrolling for mobile */
+  @media (hover: none) and (pointer: coarse) {
+    * {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1>Weekly Workout Plan</h1>
+        <div class="header-subtitle">Comprehensive training schedule with video tutorials</div>
+      </div>
+      <div class="controls">
+        <button id="themeToggle" class="btn" aria-pressed="false" title="Toggle light / dark theme">
+          <span id="themeIcon">🌙</span>
+          <span id="themeText">Dark</span>
+        </button>
+        <button id="printBtn" class="btn" title="Print or save as PDF">
+          📄 Print
+        </button>
+        <a href="workout.html" class="btn" title="Switch to Old UI">
+          Old UI
+        </a>
+      </div>
+    </header>
+
+    <nav class="day-tabs" role="tablist" aria-label="Days of the week">
+      <button id="tab-monday" class="day-tab" data-day="monday" aria-controls="content-monday" role="tab" aria-selected="false">Mon</button>
+      <button id="tab-tuesday" class="day-tab" data-day="tuesday" aria-controls="content-tuesday" role="tab" aria-selected="false">Tue</button>
+      <button id="tab-wednesday" class="day-tab" data-day="wednesday" aria-controls="content-wednesday" role="tab" aria-selected="false">Wed</button>
+      <button id="tab-thursday" class="day-tab" data-day="thursday" aria-controls="content-thursday" role="tab" aria-selected="false">Thu</button>
+      <button id="tab-friday" class="day-tab" data-day="friday" aria-controls="content-friday" role="tab" aria-selected="false">Fri</button>
+      <button id="tab-saturday" class="day-tab" data-day="saturday" aria-controls="content-saturday" role="tab" aria-selected="false">Sat</button>
+      <button id="tab-sunday" class="day-tab" data-day="sunday" aria-controls="content-sunday" role="tab" aria-selected="false">Sun</button>
+    </nav>
+
+    <main id="main-content">
+      <!-- MONDAY -->
+      <section id="content-monday" class="day-content" role="tabpanel" aria-labelledby="tab-monday">
+        <div class="day-panel">
+          <div class="category">Chest</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Smith Machine Incline Bench Press</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/b8DqTO6ak0k" target="_blank" rel="noopener noreferrer" aria-label="Watch Smith Machine Incline Bench Press tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Incline Barbell Bench Press</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/11gY7Q5D5wo" target="_blank" rel="noopener noreferrer" aria-label="Watch Incline Barbell Bench Press tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Flat Dumbbell Press</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/jRUC6IVav30" target="_blank" rel="noopener noreferrer" aria-label="Watch Flat Dumbbell Press tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Butterfly - Chest (Chest Fly)</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/iXoa_e8Po6E" target="_blank" rel="noopener noreferrer" aria-label="Watch Chest Fly tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Shoulders</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Dumbbell Shoulder Press</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/qEwKCR5JCog" target="_blank" rel="noopener noreferrer" aria-label="Watch Dumbbell Shoulder Press tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Triceps</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Overhead Rope Extension</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/AFMmqsjcfis" target="_blank" rel="noopener noreferrer" aria-label="Watch Overhead Rope Extension tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Cardio</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Running</div>
+              <div class="exercise-info">
+                <span>Duration: 10–15 minutes</span>
+                <span>•</span>
+                <span>Moderate pace</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <span class="tutorial-link" aria-disabled="true">No tutorial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TUESDAY -->
+      <section id="content-tuesday" class="day-content" role="tabpanel" aria-labelledby="tab-tuesday">
+        <div class="day-panel">
+          <div class="category">Back</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Lat Pulldown</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/AOpi-p0cJkc" target="_blank" rel="noopener noreferrer" aria-label="Watch Lat Pulldown tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Rope Pullover + Pull-ups</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/z66PPQ_hGsc" target="_blank" rel="noopener noreferrer" aria-label="Watch Rope Pullover and Pull-ups tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Incline Dumbbell Rows</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/x6nEPnQ37FQ" target="_blank" rel="noopener noreferrer" aria-label="Watch Incline Dumbbell Rows tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Deadlift</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Deadlift</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtube.com/shorts/ZaTM37cfiDs" target="_blank" rel="noopener noreferrer" aria-label="Watch Deadlift tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Biceps</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Alternating Dumbbell Curls</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/8d2we4UqOSs" target="_blank" rel="noopener noreferrer" aria-label="Watch Alternating Dumbbell Curls tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Cardio</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Running</div>
+              <div class="exercise-info">
+                <span>Duration: 10–15 minutes</span>
+                <span>•</span>
+                <span>Moderate pace</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <span class="tutorial-link" aria-disabled="true">No tutorial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WEDNESDAY -->
+      <section id="content-wednesday" class="day-content" role="tabpanel" aria-labelledby="tab-wednesday">
+        <div class="day-panel">
+          <div class="category">Legs</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Smith Machine - Squat</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/HPXa3HdJQnc" target="_blank" rel="noopener noreferrer" aria-label="Watch Smith Machine Squat tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Leg Press (Upper + Lower)</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 20, 20, 20, 20</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/G4elY53UFOQ" target="_blank" rel="noopener noreferrer" aria-label="Watch Leg Press tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Abs</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Hanging Leg Raise</div>
+              <div class="exercise-info">
+                <span>Sets: 3</span>
+                <span>•</span>
+                <span>Reps: 20, 20, 20</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/Pr1ieGZ5atk" target="_blank" rel="noopener noreferrer" aria-label="Watch Hanging Leg Raise tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Cardio</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Running</div>
+              <div class="exercise-info">
+                <span>Duration: 10–15 minutes</span>
+                <span>•</span>
+                <span>Moderate pace</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <span class="tutorial-link" aria-disabled="true">No tutorial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- THURSDAY -->
+      <section id="content-thursday" class="day-content" role="tabpanel" aria-labelledby="tab-thursday">
+        <div class="day-panel">
+          <div class="category">Rest Day</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Rest & Recovery</div>
+              <div class="exercise-info">
+                <span>Light stretching</span>
+                <span>•</span>
+                <span>Optional: Light walk or yoga</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <span class="tutorial-link" aria-disabled="true">No tutorial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FRIDAY -->
+      <section id="content-friday" class="day-content" role="tabpanel" aria-labelledby="tab-friday">
+        <div class="day-panel">
+          <div class="category">Shoulders / Chest / Triceps</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Arnold Press</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/3ml7BH7mNwQ" target="_blank" rel="noopener noreferrer" aria-label="Watch Arnold Press tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Dumbbell Incline Chest Press</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/8iPEnn-ltC8" target="_blank" rel="noopener noreferrer" aria-label="Watch Dumbbell Incline Chest Press tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Skull Crushers</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/d_KZxkY_0cM" target="_blank" rel="noopener noreferrer" aria-label="Watch Skull Crushers tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Cardio</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Running</div>
+              <div class="exercise-info">
+                <span>Duration: 10–15 minutes</span>
+                <span>•</span>
+                <span>Moderate pace</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <span class="tutorial-link" aria-disabled="true">No tutorial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SATURDAY -->
+      <section id="content-saturday" class="day-content" role="tabpanel" aria-labelledby="tab-saturday">
+        <div class="day-panel">
+          <div class="category">Back / Biceps</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Barbell Row</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/I-qgwlP0J90" target="_blank" rel="noopener noreferrer" aria-label="Watch Barbell Row tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Seated Cable Low Row</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/GZbfZ033f74" target="_blank" rel="noopener noreferrer" aria-label="Watch Seated Cable Low Row tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">E-Z Bar Curl</div>
+              <div class="exercise-info">
+                <span>Sets: 4</span>
+                <span>•</span>
+                <span>Reps: 15, 12, 10, 10</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <a class="tutorial-link" href="https://youtu.be/zG2xJ0Q5QtI" target="_blank" rel="noopener noreferrer" aria-label="Watch E-Z Bar Curl tutorial">Tutorial</a>
+            </div>
+          </div>
+
+          <div class="category">Cardio</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Running</div>
+              <div class="exercise-info">
+                <span>Duration: 10–15 minutes</span>
+                <span>•</span>
+                <span>Moderate pace</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <span class="tutorial-link" aria-disabled="true">No tutorial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SUNDAY -->
+      <section id="content-sunday" class="day-content" role="tabpanel" aria-labelledby="tab-sunday">
+        <div class="day-panel">
+          <div class="category">Rest / Recovery</div>
+          <div class="exercise-card">
+            <div class="exercise-left">
+              <div class="exercise-name">Rest & Recovery</div>
+              <div class="exercise-info">
+                <span>Active recovery</span>
+                <span>•</span>
+                <span>Light stretching or mobility work</span>
+              </div>
+            </div>
+            <div class="exercise-right">
+              <span class="tutorial-link" aria-disabled="true">No tutorial</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+// Enhanced theme handling with system preference detection
+class ThemeManager {
+  constructor() {
+    this.themeToggle = document.getElementById('themeToggle');
+    this.themeIcon = document.getElementById('themeIcon');
+    this.themeText = document.getElementById('themeText');
+    this.init();
+  }
+
+  init() {
+    // Get initial theme (saved > system > light)
+    const savedTheme = this.getSavedTheme();
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+    
+    this.setTheme(initialTheme);
+    this.bindEvents();
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!this.getSavedTheme()) {
+        this.setTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+
+  getSavedTheme() {
+    try {
+      return localStorage.getItem('workout-theme');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  saveTheme(theme) {
+    try {
+      localStorage.setItem('workout-theme', theme);
+    } catch (e) {
+      // Ignore localStorage errors
+    }
+  }
+
+  setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    this.themeToggle.setAttribute('aria-pressed', theme === 'dark');
+    this.updateThemeButton(theme);
+    this.saveTheme(theme);
+  }
+
+  updateThemeButton(theme) {
+    if (theme === 'dark') {
+      this.themeIcon.textContent = '☀️';
+      this.themeText.textContent = 'Light';
+    } else {
+      this.themeIcon.textContent = '🌙';
+      this.themeText.textContent = 'Dark';
+    }
+  }
+
+  toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    this.setTheme(next);
+  }
+
+  bindEvents() {
+    this.themeToggle.addEventListener('click', () => this.toggleTheme());
+  }
+}
+
+// Enhanced tab navigation with better accessibility and performance
+class TabManager {
+  constructor() {
+    this.tabButtons = Array.from(document.querySelectorAll('.day-tab'));
+    this.panels = Array.from(document.querySelectorAll('.day-content'));
+    this.activeTab = null;
+    this.init();
+  }
+
+  init() {
+    this.bindEvents();
+    this.setActiveTab('monday'); // Default to Monday
+  }
+
+  setActiveTab(day) {
+    // Toggle behavior: if same day clicked, close it
+    const nextTab = (this.activeTab === day) ? null : day;
+    this.activeTab = nextTab;
+
+    // Update tab buttons
+    this.tabButtons.forEach(btn => {
+      const isActive = btn.dataset.day === this.activeTab;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive);
+      btn.setAttribute('aria-expanded', isActive);
+      btn.tabIndex = isActive ? 0 : -1;
+    });
+
+    // Update panels with smooth transitions
+    this.panels.forEach(panel => {
+      const shouldShow = this.activeTab && panel.id === `content-${this.activeTab}`;
+      
+      if (shouldShow && !panel.classList.contains('active')) {
+        panel.classList.add('active');
+        panel.setAttribute('aria-hidden', 'false');
+        // Announce to screen readers
+        this.announceTabChange(this.activeTab);
+      } else if (!shouldShow && panel.classList.contains('active')) {
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // Ensure at least one tab is focusable
+    if (!this.activeTab) {
+      this.tabButtons[0].tabIndex = 0;
+    }
+
+    // Update URL hash without triggering scroll
+    this.updateURL(this.activeTab);
+  }
+
+  announceTabChange(day) {
+    const announcement = document.createElement('div');
+    announcement.textContent = `${day.charAt(0).toUpperCase() + day.slice(1)} workout plan loaded`;
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.className = 'visually-hidden';
+    document.body.appendChild(announcement);
+    setTimeout(() => document.body.removeChild(announcement), 1000);
+  }
+
+  updateURL(day) {
+    // Skip URL manipulation in restricted environments (like Claude artifacts)
+    try {
+      if (day && window.location.protocol !== 'about:') {
+        history.replaceState(null, null, `#${day}`);
+      } else if (!day && window.location.protocol !== 'about:') {
+        history.replaceState(null, null, window.location.pathname);
+      }
+    } catch (e) {
+      // Silently ignore security errors in restricted environments
+      console.debug('URL update skipped due to security restrictions');
+    }
+  }
+
+  bindEvents() {
+    this.tabButtons.forEach((btn, index) => {
+      const day = btn.dataset.day;
+      
+      // Click events
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.setActiveTab(day);
+      });
+
+      // Keyboard navigation
+      btn.addEventListener('keydown', (e) => {
+        this.handleKeyboard(e, index);
+      });
+    });
+
+    // Handle initial hash only if we can safely access it
+    try {
+      const hash = window.location.hash.slice(1);
+      if (hash && this.tabButtons.some(btn => btn.dataset.day === hash)) {
+        this.setActiveTab(hash);
+      }
+    } catch (e) {
+      // Skip hash handling in restricted environments
+      console.debug('Hash navigation skipped due to security restrictions');
+    }
+  }
+
+  handleKeyboard(e, currentIndex) {
+    let targetIndex = currentIndex;
+
+    switch (e.key) {
+      case 'Enter':
+      case ' ':
+        e.preventDefault();
+        this.setActiveTab(this.tabButtons[currentIndex].dataset.day);
+        return;
+        
+      case 'ArrowLeft':
+        e.preventDefault();
+        targetIndex = (currentIndex - 1 + this.tabButtons.length) % this.tabButtons.length;
+        break;
+        
+      case 'ArrowRight':
+        e.preventDefault();
+        targetIndex = (currentIndex + 1) % this.tabButtons.length;
+        break;
+        
+      case 'Home':
+        e.preventDefault();
+        targetIndex = 0;
+        break;
+        
+      case 'End':
+        e.preventDefault();
+        targetIndex = this.tabButtons.length - 1;
+        break;
+        
+      default:
+        return;
+    }
+
+    // Focus and activate the target tab
+    const targetButton = this.tabButtons[targetIndex];
+    targetButton.focus();
+    this.setActiveTab(targetButton.dataset.day);
+  }
+}
+
+// Print functionality with better preparation
+class PrintManager {
+  constructor() {
+    this.printBtn = document.getElementById('printBtn');
+    this.init();
+  }
+
+  init() {
+    this.printBtn.addEventListener('click', () => this.handlePrint());
+  }
+
+  async handlePrint() {
+    // Show loading state
+    this.printBtn.classList.add('loading');
+    this.printBtn.disabled = true;
+
+    try {
+      // Prepare for printing
+      this.prepareForPrint();
+      
+      // Small delay to ensure DOM updates are rendered
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Trigger print
+      window.print();
+    } finally {
+      // Restore normal state after print dialog closes
+      setTimeout(() => {
+        this.restoreAfterPrint();
+        this.printBtn.classList.remove('loading');
+        this.printBtn.disabled = false;
+      }, 500);
+    }
+  }
+
+  prepareForPrint() {
+    // Make all content visible for printing
+    document.querySelectorAll('.day-content').forEach(panel => {
+      panel.classList.add('active');
+      panel.setAttribute('aria-hidden', 'false');
+    });
+
+    // Add print-specific classes
+    document.body.classList.add('printing');
+  }
+
+  restoreAfterPrint() {
+    // Restore original visibility state
+    document.querySelectorAll('.day-content').forEach(panel => {
+      const shouldBeVisible = panel.classList.contains('active');
+      if (!shouldBeVisible) {
+        panel.classList.remove('active');
+        panel.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // Remove print-specific classes
+    document.body.classList.remove('printing');
+  }
+}
+
+// Performance optimization: Intersection Observer for animations
+class AnimationManager {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // Only run animations if user hasn't requested reduced motion
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      this.setupIntersectionObserver();
+    }
+  }
+
+  setupIntersectionObserver() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '10px'
+    });
+
+    // Observe exercise cards for staggered animations
+    document.querySelectorAll('.exercise-card').forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.05}s`;
+      card.style.animationPlayState = 'paused';
+      observer.observe(card);
+    });
+  }
+}
+
+// Service Worker registration for offline functionality (optional)
+class ServiceWorkerManager {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // Skip service worker registration in restricted environments
+    if ('serviceWorker' in navigator && window.location.protocol !== 'about:') {
+      // Only register in production environments
+      if (window.location.protocol === 'https:' || window.location.hostname === 'localhost') {
+        this.registerServiceWorker();
+      }
+    }
+  }
+
+  async registerServiceWorker() {
+    try {
+      // This would need a separate service worker file
+      // await navigator.serviceWorker.register('/sw.js');
+      console.debug('Service Worker registration skipped - no service worker file');
+    } catch (error) {
+      console.debug('Service Worker registration failed:', error);
+    }
+  }
+}
+
+// Error handling and fallbacks
+class ErrorHandler {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    // Global error handling
+    window.addEventListener('error', (e) => {
+      console.error('Global error:', e.error);
+      this.showErrorMessage('An error occurred. Please refresh the page.');
+    });
+
+    // Unhandled promise rejection handling
+    window.addEventListener('unhandledrejection', (e) => {
+      console.error('Unhandled promise rejection:', e.reason);
+      e.preventDefault();
+    });
+  }
+
+  showErrorMessage(message) {
+    // Create temporary error notification
+    const errorDiv = document.createElement('div');
+    errorDiv.textContent = message;
+    errorDiv.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #dc2626;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      z-index: 9999;
+      font-size: 14px;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    `;
+    
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+      if (errorDiv.parentNode) {
+        errorDiv.parentNode.removeChild(errorDiv);
+      }
+    }, 5000);
+  }
+}
+
+// Initialize all managers when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    new ThemeManager();
+    new TabManager();
+    new PrintManager();
+    new AnimationManager();
+    new ServiceWorkerManager();
+    new ErrorHandler();
+  } catch (error) {
+    console.error('Initialization error:', error);
+  }
+});
+
+// Preload critical resources
+const preloadCriticalResources = () => {
+  // Preload fonts if using external fonts
+  const fontPreloads = [
+    // 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
+  ];
+
+  fontPreloads.forEach(href => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'style';
+    link.href = href;
+    document.head.appendChild(link);
+  });
+};
+
+// Call preload function
+preloadCriticalResources();
+</script>
+</body>
+</html>
