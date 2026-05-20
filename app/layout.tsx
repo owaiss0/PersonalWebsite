@@ -1,25 +1,25 @@
 import './global.css'
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
-import { Navbar } from './components/nav'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
-import Footer from './components/footer'
+import { Geist, Geist_Mono } from "next/font/google"
 import { baseUrl } from './sitemap'
+import { cn } from "@/lib/utils"
+import { AppShell } from './components/app-shell'
+
+const geistSans = Geist({ subsets: ['latin'], variable: '--font-sans' })
+const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'owais',
-    template: '%s | owais',
+    default: 'owais | Portfolio',
+    template: '%s | Portfolio',
   },
-  description: 'Owais personal website.',
+  description: 'This is my portfolio.',
   openGraph: {
-    title: 'owais',
-    description: 'Owais personal website.',
+    title: 'owais | Portfolio',
+    description: 'This is my portfolio.',
     url: baseUrl,
-    siteName: 'owais',
+    siteName: 'owais | Portfolio',
     locale: 'en_US',
     type: 'website',
   },
@@ -36,7 +36,6 @@ export const metadata: Metadata = {
   },
 }
 
-const cx = (...classes) => classes.filter(Boolean).join(' ')
 
 export default function RootLayout({
   children,
@@ -46,20 +45,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cx(
-        'text-black bg-white dark:text-white dark:bg-black',
-        GeistSans.variable,
-        GeistMono.variable
+      className={cn(
+        'dark bg-[#0a0a0f] text-white',
+        geistSans.variable,
+        geistMono.variable,
+        'font-sans'
       )}
     >
-      <body className="antialiased max-w-5xl mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Navbar />
-          {children}
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
-        </main>
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   )

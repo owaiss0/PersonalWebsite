@@ -7,8 +7,7 @@ export default function Page() {
         owais
       </h1>
       <p className="mb-4">
-        {`Personal website for Owais. Use the gym-workout page for the updated
-        Next.js workout plan, or check the blog posts below.`}
+        {`cs........................................`}
       </p>
       <div className="my-8">
         <BlogPosts />
