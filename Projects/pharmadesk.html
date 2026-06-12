@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PharmaDesk - Smart Pharmacy Management SaaS | Portfolio</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.className = 'dark-theme';
+      } else {
+        document.documentElement.className = 'light-theme';
+      }
+    })();
+  </script>
+</head>
+<body>
+  <script>
+    document.body.className = document.documentElement.className;
+  </script>
+  <div class="container">
+    <aside>
+      <nav id="nav">
+        <div class="nav-container">
+          <div class="nav-links-left">
+            <a class="nav-link" href="../index.html">Home</a>
+            <a class="nav-link" href="../blog.html">Blog</a>
+            <a class="nav-link active" href="../Projects/project.html" aria-current="page">Projects</a>
+            <a class="nav-link" href="../cv.html">CV</a>
+          </div>  
+          <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+            </svg>
+            <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </aside>
+    <main>
+      <article>
+        <header>
+          <h1 class="post-header-title">PharmaDesk - Smart Pharmacy Management SaaS</h1>
+          <div class="post-meta">
+            <span>Project Showcase</span>
+            <a class="nav-link" href="./project.html" style="padding: 4px 8px; font-size: 14px;">&larr; Back to list</a>
+          </div>
+        </header>
+        <div class="prose" style="max-width: 100%;">
+          <p>
+            <strong>PharmaDesk</strong> (available at <a href="https://www.pharmadesk.in/" target="_blank" rel="noopener noreferrer">pharmadesk.in</a>) is a premium, enterprise-grade B2B Software-as-a-Service (SaaS) platform built specifically to automate and streamline pharmacy operations, inventory tracking, and retail billing workflows.
+          </p>
+
+          <!-- Interactive Tab Selection -->
+          <div class="tab-container">
+            <div class="tab-buttons">
+              <button id="btn-tab-modules" class="tab-button active" onclick="switchTab('modules')">📦 Core Modules</button>
+              <button id="btn-tab-architecture" class="tab-button" onclick="switchTab('architecture')">🛠️ Tech Stack & Scale</button>
+            </div>
+
+            <!-- TAB 1: CORE MODULES (ACTIVE) -->
+            <div id="tab-modules" class="tab-content active">
+              <h2>Core Platform Modules</h2>
+              <p>PharmaDesk is divided into specialized modules designed for maximum reliability and ease of use in retail pharmacy setups. Below is an in-depth breakdown of these systems:</p>
+              
+              <div class="grid-2col">
+                <div class="showcase-card" style="grid-column: 1 / -1;">
+                  <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--blue-hover);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Invoicing & Fast Billing Console
+                  </h3>
+                  <p style="margin-bottom: 12px;">Pharmacy billing counters require split-second transactions to keep lines moving. PharmaDesk utilizes a custom keyboard-first interface allowing cashiers to perform all billing tasks without touching a mouse.</p>
+                  <p style="font-size: 14.5px; color: var(--muted); line-height: 1.5;">
+                    - <strong>Instant Search:</strong> Custom autocomplete modules lookup inventory items by compound name, brand name, or salt schedule in under 150ms.<br>
+                    - <strong>Financial Math:</strong> Automatically computes state/local sales taxes (GST/VAT splits), coupon discounts, partial credit structures, and prints cleanly formatted receipts (supporting thermal 3-inch layouts and standard A4 sizes).<br>
+                    - <strong>Real-time Sync:</strong> Decrements stock quantities down to the exact batch ID level upon invoice checkout, avoiding double-sells across multiple cashier lanes.
+                  </p>
+                </div>
+
+                <div class="showcase-card">
+                  <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--blue-hover);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                    Inventory & Batch Tracking
+                  </h3>
+                  <p style="margin-bottom: 12px;">Unlike standard retail products, pharmaceutical inventory must track identical SKU items separately under unique manufacturer batch numbers, purchase prices, shelf configurations, and expiration profiles.</p>
+                  <p style="font-size: 14.5px; color: var(--muted); line-height: 1.5;">
+                    - <strong>Composite Mapping:</strong> Associates stock items with combined database keys (`SKU` + `Batch ID`) to track dynamic purchase costs, wholesale markups, and distributor origins.<br>
+                    - <strong>Unit Multipliers:</strong> Handles packaging conversions (e.g. bulk box to inner strip to individual tablets), enabling fractional stock updates (e.g. selling 3 tablets from a strip of 10).
+                  </p>
+                </div>
+
+                <div class="showcase-card">
+                  <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ef4444;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    Expiry Blocker & Compliance Safeguards
+                  </h3>
+                  <p style="margin-bottom: 12px;">Selling expired medicines poses severe patient safety risks and legal liabilities. PharmaDesk implements active compliance safeguards directly inside the checkout path.</p>
+                  <p style="font-size: 14.5px; color: var(--muted); line-height: 1.5;">
+                    - <strong>Visual Compliance Matrix:</strong> Automatically monitors and tags batches by shelf-life status (Safe, Expiring Soon, Expired) and displays alerts at the cashier terminal.<br>
+                    - <strong>Active UI Blockade:</strong> If a cashier scans a barcode belonging to an expired batch, the billing panel triggers a hard validation block, rendering it impossible to add the product to the active checkout cart.
+                  </p>
+                </div>
+
+                <div class="showcase-card">
+                  <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #8b5cf6;"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    AI PDF Invoice Scanner & OCR Parser
+                  </h3>
+                  <p style="margin-bottom: 12px;">Manually entering hundreds of distinct drug compounds, costs, batch IDs, and expiries from distributor invoices takes hours of repetitive manual data-entry.</p>
+                  <p style="font-size: 14.5px; color: var(--muted); line-height: 1.5;">
+                    - <strong>Automatic Extraction:</strong> Allows users to drag-and-drop distributor PDFs. An AI-powered parsing model processes the document layout, extracts compound listings, and isolates active batch IDs, quantities, expiries, and costs.<br>
+                    - <strong>Verification Screen:</strong> Provides a side-by-side reconciliation screen. Upon verification, the records are securely written to the Supabase database.
+                  </p>
+                </div>
+
+                <div class="showcase-card">
+                  <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--blue-hover);"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    BI Dashboards & Reports
+                  </h3>
+                  <p style="margin-bottom: 12px;">Provides management with granular insights into store efficiency, financial logs, and inventory turnover schedules.</p>
+                  <p style="font-size: 14.5px; color: var(--muted); line-height: 1.5;">
+                    - <strong>Financial Metrics:</strong> Dynamically calculates daily sales volume, average transaction size, cost of goods sold (COGS), net profit margins, and inventory valuation.<br>
+                    - <strong>Tax & Compliance:</strong> Auto-aggregates and generates tax reports (GST/VAT summaries) for easy financial filing.
+                  </p>
+                </div>
+
+                <div class="showcase-card" style="grid-column: 1 / -1;">
+                  <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--blue-hover);"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                    Predictive Stock Restocking
+                  </h3>
+                  <p style="margin-bottom: 12px;">Maintains optimal supply chains by calculating item depletion triggers dynamically using historic records.</p>
+                  <p style="font-size: 14.5px; color: var(--muted); line-height: 1.5;">
+                    - <strong>Demand Forecaster:</strong> Analyzes historical sales velocity, distributor delivery timelines, and seasonal regional health trends to suggest purchase order lists, reducing write-off waste from dead stock by up to 30%.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: TECHNICAL DETAILS -->
+            <div id="tab-architecture" class="tab-content">
+              <h2>System Architecture & Development</h2>
+              <p>PharmaDesk is engineered for speed, safety, and operational continuity. Here is how the technical stack is structured and how data flows through the application:</p>
+              
+              <div class="tech-section">
+                <div class="tech-section-title">Frontend & UI Engine</div>
+                <div class="tech-badge-container">
+                  <span class="tech-badge tech-badge-accent">Next.js (App Router)</span>
+                  <span class="tech-badge">React</span>
+                  <span class="tech-badge">TanStack Tables</span>
+                  <span class="tech-badge">Tailwind CSS</span>
+                  <span class="tech-badge">shadcn/ui (Radix UI)</span>
+                  <span class="tech-badge">TypeScript</span>
+                </div>
+                <p style="font-size: 15px; margin-bottom: 12px;">
+                  Built using <strong>Next.js</strong> Server Components to optimize page delivery speed and SEO. Dense datasets of pharmacy products and logs are managed using <strong>TanStack Tables</strong>, enabling instant client-side global searches, paginations, and sorting over thousands of batch items. Keyboard shortcuts and focus traps are implemented via Radix UI primitives to ensure cashiers can operate the system without touching the mouse.
+                </p>
+              </div>
+
+              <div class="tech-section">
+                <div class="tech-section-title">Backend Services & Data Layer</div>
+                <div class="tech-badge-container">
+                  <span class="tech-badge tech-badge-accent">PostgreSQL</span>
+                  <span class="tech-badge">Supabase Hosting</span>
+                  <span class="tech-badge">Supabase Auth</span>
+                  <span class="tech-badge">Next.js Edge API Routes</span>
+                  <span class="tech-badge">Prisma ORM</span>
+                </div>
+                <p style="font-size: 15px; margin-bottom: 12px;">
+                  Core transactions are managed inside a relational <strong>PostgreSQL</strong> database hosted on <strong>Supabase</strong>. Custom SQL triggers and constraints are implemented at the database level to ensure that batch numbers are valid and expired batches can never be checked out. Authentication relies on <strong>Supabase Auth</strong> with tenant-isolation schemas, making sure pharmacies cannot read or write to other pharmacies' records.
+                </p>
+              </div>
+
+              <div class="tech-section">
+                <div class="tech-section-title">Third-Party Integrations</div>
+                <div class="tech-badge-container">
+                  <span class="tech-badge tech-badge-accent">Razorpay Checkout SDK</span>
+                  <span class="tech-badge">Resend (Transactional Mail)</span>
+                  <span class="tech-badge">OpenAI API (OCR PDF Parser)</span>
+                </div>
+                <p style="font-size: 15px; margin-bottom: 12px;">
+                  Merchant subscriptions and invoice payments are integrated using <strong>Razorpay Checkout</strong>. Critical status updates—such as daily low stock summaries or automated warning alerts for batches expiring in under 60 days—are delivered through HTML transactional mail using the <strong>Resend API</strong>.
+                </p>
+              </div>
+
+              <div class="tech-section">
+                <div class="tech-section-title">High-Performance Scale Roadmap</div>
+                <p style="font-size: 15px; margin-bottom: 12px;">
+                  To support rapid scaling and concurrent cashier transactions across thousands of pharmacy franchises, the backend is scheduled to transition from Next.js serverless handlers into microservices written in <strong>Go (Golang)</strong> and <strong>NestJS</strong>, utilizing a Redis cache layer for sub-millisecond billing processing.
+                </p>
+                <div class="roadmap-flow">
+                  <div class="roadmap-step">
+                    <div class="roadmap-icon">✓</div>
+                    <div class="roadmap-info">
+                      <div class="roadmap-title">Phase 1: Relational MVP</div>
+                      <div class="roadmap-desc">Next.js App Router, Supabase Postgres Database schemas, and multi-tenant logic.</div>
+                    </div>
+                  </div>
+                  <div class="roadmap-step">
+                    <div class="roadmap-icon">✓</div>
+                    <div class="roadmap-info">
+                      <div class="roadmap-title">Phase 2: Billing & Expiry Safety Rails</div>
+                      <div class="roadmap-desc">Integrating TanStack table queries, automated safety controls blocking expired items, and Razorpay subscriptions.</div>
+                    </div>
+                  </div>
+                  <div class="roadmap-step active">
+                    <div class="roadmap-icon">⚡</div>
+                    <div class="roadmap-info">
+                      <div class="roadmap-title">Phase 3: AI OCR Distributor Processing (In-Progress)</div>
+                      <div class="roadmap-desc">Developing file upload engines that automatically parse distributor billing PDFs using LLM vision models.</div>
+                    </div>
+                  </div>
+                  <div class="roadmap-step upcoming">
+                    <div class="roadmap-icon">4</div>
+                    <div class="roadmap-info">
+                      <div class="roadmap-title">Phase 4: Go & NestJS Services Migration</div>
+                      <div class="roadmap-desc">Decoupling heavy mutations and WebSocket invoice sync routines to high-concurrency Go and NestJS microservices.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer>
+      <ul class="footer-links">
+        <li class="footer-link-item">
+          <a target="_blank" rel="noopener noreferrer" href="https://x.com/zowaiss">
+            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
+            </svg>
+            <p>X (Twitter)</p>
+          </a>
+        </li>
+        <li class="footer-link-item">
+          <a target="_blank" rel="noopener noreferrer" href="https://github.com/owaiss0">
+            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
+            </svg>
+            <p>github</p>
+          </a>
+        </li>
+        <li class="footer-link-item">
+          <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/owaiss0">
+            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
+            </svg>
+            <p>Linkedin</p>
+          </a>
+        </li>
+      </ul>
+      <p class="copyright">
+        &copy; <span id="year">2026</span> owais
+      </p>
+    </footer>
+  </div>
+  <script src="../js/main.js" defer></script>
+  <script>
+    // Tab switcher function
+    window.switchTab = function(tabId) {
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      const activeBtn = document.getElementById('btn-tab-' + tabId);
+      if (activeBtn) activeBtn.classList.add('active');
+      
+      const activeContent = document.getElementById('tab-' + tabId);
+      if (activeContent) activeContent.classList.add('active');
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Workout Plan | Gym Tracker</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap');
+
+    /* Default Light Theme variables */
+    :root {
+      --bg: #f8fafc;
+      --fg: #0f172a;
+      --panel-bg: #ffffff;
+      --border-color: rgba(15, 23, 42, 0.06);
+      --nav-border: rgba(15, 23, 42, 0.6);
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --accent-light: rgba(79, 70, 229, 0.08);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.08);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.08);
+      --muted: #64748b;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02), 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+      --pill-bg: #f1f5f9;
+      --pill-active: #0f172a;
+      --pill-active-fg: #ffffff;
+
+      /* Muscle Category Colors */
+      --color-chest: #ec4899;
+      --color-shoulder: #f97316;
+      --color-triceps: #8b5cf6;
+      --color-cardio: #06b6d4;
+      --color-back: #3b82f6;
+      --color-biceps: #ef4444;
+      --color-legs: #10b981;
+      --color-abs: #eab308;
+    }
+
+    /* Explicit Dark Theme overrides */
+    .dark-theme {
+      --bg: #090d16;
+      --fg: #f1f5f9;
+      --panel-bg: #131a26;
+      --border-color: rgba(241, 245, 249, 0.07);
+      --nav-border: rgba(241, 245, 249, 0.35);
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-light: rgba(99, 102, 241, 0.15);
+      --success: #34d399;
+      --success-bg: rgba(52, 211, 153, 0.12);
+      --warning: #fbbf24;
+      --warning-bg: rgba(251, 191, 36, 0.12);
+      --muted: #94a3b8;
+      --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+      --pill-bg: #1e293b;
+      --pill-active: #f1f5f9;
+      --pill-active-fg: #0f172a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 500;
+      min-height: 100vh;
+      font-size: 16px;
+      line-height: 1.5;
+      transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+    }
+
+    /* Layout Container */
+    .workout-container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+    }
+
+    /* Navigation Bar */
+    nav {
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 16px;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links-left {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .nav-link.active {
+      color: var(--fg);
+      background-color: var(--pill-bg);
+    }
+
+    .nav-link:hover {
+      color: var(--accent);
+    }
+
+    /* Theme Toggle */
+    .theme-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--muted);
+      cursor: pointer;
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 160ms ease;
+    }
+
+    .nav-buttons-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle-btn:hover {
+      color: var(--fg);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .light-theme .theme-toggle-btn:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .theme-toggle-btn svg {
+      stroke: currentColor;
+      fill: none;
+    }
+
+    .dark-theme .sun-icon {
+      display: block;
+    }
+
+    .dark-theme .moon-icon {
+      display: none;
+    }
+
+    .light-theme .sun-icon {
+      display: none;
+    }
+
+    .light-theme .moon-icon {
+      display: block;
+    }
+
+    /* Main Panel Card */
+    .workout-container-card {
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header Row */
+    .dashboard-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .dashboard-title-area h1 {
+      font-weight: 800;
+      font-size: 32px;
+      letter-spacing: -0.025em;
+      color: var(--fg);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* Date / Clock Widget in Title Bar (Header widget) */
+    .header-info-widget {
+      text-align: right;
+    }
+
+    .header-info-label {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    .header-info-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-top: 2px;
+      font-family: 'Geist Mono', monospace;
+    }
+
+    /* Controls Bar: Search & Clear Button */
+    .controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 240px;
+      max-width: 320px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 40px;
+      padding: 0 16px 0 40px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+
+    .search-icon-svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .clear-history-btn {
+      height: 40px;
+      padding: 0 16px;
+      border-radius: 8px;
+      background-color: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .clear-history-btn:hover {
+      background-color: rgba(239, 68, 68, 0.08);
+      border-color: #ef4444;
+    }
+
+    /* Filters Badges Row */
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      background-color: var(--panel-bg);
+      color: var(--muted);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-badge:hover {
+      border-color: var(--accent);
+      color: var(--fg);
+    }
+
+    .filter-badge.active {
+      background-color: var(--pill-active);
+      border-color: var(--pill-active);
+      color: var(--pill-active-fg);
+    }
+
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (min-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1.6fr 1fr;
+      }
+    }
+
+    /* Main Panel Accordions */
+    .main-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .accordion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .day-accordion {
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+
+
+    .accordion-header {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.15s;
+    }
+
+    .accordion-header:hover {
+      background-color: var(--pill-bg);
+    }
+
+    .day-accordion.active-day .accordion-header {
+      background-color: rgba(79, 70, 229, 0.03);
+    }
+
+    .dark-theme .day-accordion.active-day .accordion-header {
+      background-color: rgba(99, 102, 241, 0.06);
+    }
+
+    .accordion-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .accordion-day-tag {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+
+    .accordion-date-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      background-color: var(--pill-bg);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .accordion-split-focus {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .accordion-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .accordion-progress-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .chevron-icon {
+      color: var(--muted);
+      transition: transform 0.25s ease;
+    }
+
+    .day-accordion.open .chevron-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Accordion Body */
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease-out, padding 0.25s ease;
+      padding: 0 20px;
+    }
+
+    .day-accordion.open .accordion-body {
+      border-top: 1px solid var(--border-color);
+      padding: 20px;
+      max-height: 2500px;
+    }
+
+    /* Exercise Rows */
+    .exercise-type-subheader {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+      margin-top: 16px;
+    }
+
+    .exercise-type-subheader:first-child {
+      margin-top: 0;
+    }
+
+    .exercise-row {
+      position: relative;
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      display: flex;
+      padding: 12px 16px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .exercise-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .exercise-row:hover {
+      background-color: var(--pill-bg);
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .dark-theme .exercise-row:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .exercise-row.checked {
+      opacity: 0.7;
+    }
+
+    .exercise-row.cat-chest:hover:not(.checked) .exercise-name { color: var(--color-chest); }
+    .exercise-row.cat-shoulder:hover:not(.checked) .exercise-name { color: var(--color-shoulder); }
+    .exercise-row.cat-triceps:hover:not(.checked) .exercise-name { color: var(--color-triceps); }
+    .exercise-row.cat-back:hover:not(.checked) .exercise-name { color: var(--color-back); }
+    .exercise-row.cat-biceps:hover:not(.checked) .exercise-name { color: var(--color-biceps); }
+    .exercise-row.cat-legs:hover:not(.checked) .exercise-name { color: var(--color-legs); }
+    .exercise-row.cat-abs:hover:not(.checked) .exercise-name { color: var(--color-abs); }
+    .exercise-row.cat-cardio:hover:not(.checked) .exercise-name { color: var(--color-cardio); }
+
+    .exercise-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .exercise-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+
+    .exercise-row.checked .exercise-name {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .exercise-specs {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .exercise-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .time-badge {
+      font-size: 11px;
+      color: var(--success);
+      font-weight: 700;
+      background-color: var(--success-bg);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: 'Geist Mono', monospace;
+    }
+
+    .tutorial-link {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      border: 1px solid var(--border-color);
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .tutorial-link:hover {
+      border-color: var(--fg);
+      color: var(--fg);
+    }
+
+    /* Custom Checkbox wrapper */
+    .custom-checkbox {
+      position: relative;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .custom-checkbox input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: var(--pill-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .custom-checkbox:hover input~.checkmark {
+      border-color: var(--accent);
+    }
+
+    .custom-checkbox input:checked~.checkmark {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+
+    .check-icon {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: white;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 20;
+      stroke-dashoffset: 20;
+      transition: stroke-dashoffset 0.2s ease-in-out;
+    }
+
+    .custom-checkbox input:checked~.checkmark .check-icon {
+      stroke-dashoffset: 0;
+    }
+
+    /* Rest Day Styles */
+    .rest-card {
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background-color: var(--panel-bg);
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+    }
+
+    .rest-quote-container {
+      padding: 16px;
+      background-color: var(--pill-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .rest-quote-icon {
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .rest-quote {
+      font-style: italic;
+      font-size: 14.5px;
+      color: var(--fg);
+      line-height: 1.6;
+    }
+
+    .rest-quote-author {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .recovery-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--fg);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    .recovery-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 600px) {
+      .recovery-list {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .recovery-item {
+      background-color: var(--bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .recovery-item.checked {
+      opacity: 0.7;
+    }
+
+    .recovery-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .recovery-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .recovery-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+
+    .recovery-item.checked .recovery-name {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+
+    .recovery-desc {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Sidebar Panel */
+    .sidebar-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+    }
+
+    /* Clock Card */
+    .clock-widget {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(135deg, var(--panel-bg) 0%, var(--bg) 100%);
+    }
+
+    .clock-time {
+      font-family: 'Geist Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--fg);
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .clock-date {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* Calendar Widget */
+    .cal-widget-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--fg);
+      margin-bottom: 16px;
+    }
+
+    .cal-nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .cal-month-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+
+    .cal-nav-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--muted);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .cal-nav-btn:hover {
+      color: var(--fg);
+      border-color: var(--fg);
+    }
+
+    .cal-grid-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .cal-days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .cal-day-cell {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--fg);
+      border-radius: 8px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .cal-day-cell:hover:not(.empty) {
+      background-color: var(--pill-bg);
+    }
+
+    .cal-day-cell.selected {
+      background-color: var(--accent) !important;
+      color: white !important;
+    }
+
+    .cal-day-cell.today:not(.selected) {
+      border: 1.5px solid var(--fg);
+    }
+
+    .cal-day-cell.completed::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--success);
+    }
+
+    .cal-day-cell.selected.completed::after {
+      background-color: white;
+    }
+
+    .cal-day-cell.empty {
+      cursor: default;
+    }
+
+    /* Rest Countdown Timer Widget */
+    .timer-widget {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timer-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .timer-display {
+      font-family: 'Geist Mono', monospace;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--fg);
+      text-align: center;
+      margin: 12px 0 16px 0;
+      letter-spacing: -0.02em;
+    }
+
+    .timer-presets {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .preset-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background-color: var(--panel-bg);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-btn:hover {
+      color: var(--fg);
+      border-color: var(--fg);
+    }
+
+    .timer-input-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      justify-content: center;
+    }
+
+    .timer-custom-input {
+      width: 48px;
+      height: 36px;
+      text-align: center;
+      background-color: var(--pill-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--fg);
+      font-family: 'Geist Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 150ms ease;
+    }
+
+    .timer-custom-input:focus {
+      border-color: var(--accent);
+    }
+
+    .timer-custom-input::-webkit-outer-spin-button,
+    .timer-custom-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .timer-separator {
+      font-family: 'Geist Mono', monospace;
+      font-weight: bold;
+      color: var(--muted);
+    }
+
+    .timer-set-btn {
+      height: 36px;
+      padding: 0 12px;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .timer-set-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .timer-btn {
+      flex: 1;
+      height: 40px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .timer-btn.start {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .timer-btn.pause {
+      background-color: var(--warning);
+      color: white;
+    }
+
+    .timer-btn.reset {
+      background-color: var(--pill-bg);
+      color: var(--fg);
+      border: 1px solid var(--border-color);
+    }
+
+    .timer-btn:hover {
+      opacity: 0.95;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 440px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-warning-icon {
+      color: #ef4444;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: rgba(239, 68, 68, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      text-align: center;
+      color: var(--fg);
+    }
+
+    .modal-text {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      height: 40px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .modal-btn.cancel {
+      background-color: var(--pill-bg);
+      color: var(--fg);
+      border: 1px solid var(--border-color);
+    }
+
+    .modal-btn.cancel:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .dark-theme .modal-btn.cancel:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .modal-btn.confirm {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .modal-btn.confirm:hover {
+      background: #dc2626;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    }
+
+    /* Helper States */
+    .empty-filtered-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px dashed var(--border-color);
+      border-radius: 8px;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+
+      .workout-container {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+
+      nav,
+      .controls-bar,
+      .filter-row,
+      .sidebar-panel,
+      .chevron-icon,
+      .custom-checkbox,
+      .tutorial-link,
+      .modal-overlay,
+      .time-badge {
+        display: none !important;
+      }
+
+      .dashboard-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .workout-container-card {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      }
+
+      .day-accordion {
+        border: none !important;
+        box-shadow: none !important;
+        margin-bottom: 30px !important;
+        page-break-inside: avoid !important;
+      }
+
+      .accordion-body {
+        max-height: none !important;
+        padding: 10px 0 !important;
+        border: none !important;
+        display: block !important;
+      }
+
+      .accordion-header {
+        cursor: default !important;
+        background-color: transparent !important;
+        padding: 0 0 10px 0 !important;
+        border-bottom: 2px solid #000000 !important;
+      }
+
+      .accordion-day-tag {
+        font-size: 22px !important;
+      }
+
+      .accordion-progress-label {
+        color: #000000 !important;
+      }
+
+      .exercise-row {
+        border: none !important;
+        border-bottom: 1px solid #e5e7eb !important;
+        padding: 8px 0 !important;
+        margin-bottom: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      .exercise-name {
+        font-size: 14px !important;
+        text-decoration: none !important;
+        color: #000000 !important;
+      }
+
+      .exercise-specs {
+        color: #000000 !important;
+      }
+    }
+
+    /* Media query responsiveness styling matching Step 782 */
+    @media (max-width: 640px) {
+      .workout-container {
+        padding: 20px 14px;
+      }
+
+      nav {
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .nav-links-left {
+        gap: 4px;
+        justify-content: center;
+      }
+
+      .nav-link {
+        font-size: 14px;
+        padding: 6px 10px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .subtitle {
+        font-size: 12px;
+      }
+
+      .workout-container-card {
+        padding: 16px;
+        gap: 12px;
+      }
+
+      .controls-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .search-wrapper {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .filter-row {
+        justify-content: center;
+      }
+
+      .clear-history-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .accordion-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 14px;
+      }
+
+      .accordion-left {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .accordion-right {
+        width: 100%;
+        justify-content: space-between;
+        border-top: 1px dashed var(--border-color);
+        padding-top: 8px;
+        margin-top: 4px;
+      }
+
+      .accordion-day-tag {
+        font-size: 13px;
+      }
+
+      .accordion-date-tag {
+        font-size: 10px;
+      }
+
+      .accordion-split-focus {
+        font-size: 10px;
+      }
+
+      .accordion-body {
+        padding: 12px;
+      }
+
+      .exercise-row {
+        padding: 10px 12px;
+      }
+
+      .exercise-name {
+        font-size: 13px;
+      }
+
+      .exercise-specs {
+        font-size: 10px;
+      }
+
+      .time-badge {
+        font-size: 9px;
+      }
+
+      .timer-display {
+        font-size: 28px;
+      }
+
+      .clock-time {
+        font-size: 20px;
+      }
+    }
+  </style>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.className = 'dark-theme';
+      } else {
+        document.documentElement.className = 'light-theme';
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <script>
+    document.body.className = document.documentElement.className;
+  </script>
+
+  <div class="workout-container">
+    <!-- Navigation -->
+    <nav id="nav">
+      <div class="nav-container">
+        <div class="nav-links-left">
+          <a class="nav-link" href="../index.html">Home</a>
+          <a class="nav-link" href="../blog.html">Blog</a>
+          <a class="nav-link" href="../Projects/project.html">Projects</a>
+          <a class="nav-link" href="../cv.html">CV</a>
+          <a class="nav-link active" href="./workout.html">Workout</a>
+          <a class="nav-link" href="./archived-workout.html">Archived</a>
+        </div>
+        <div class="nav-buttons-right">
+          <button onclick="printArchived()" class="theme-toggle-btn" aria-label="Print page" title="Print Workout Plan">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 6 2 18 2 18 9"></polyline>
+              <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+              <rect x="6" y="14" width="12" height="8"></rect>
+            </svg>
+          </button>
+          <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2" />
+              <path d="M12 20v2" />
+              <path d="m4.93 4.93 1.41 1.41" />
+              <path d="m17.66 17.66 1.41 1.41" />
+              <path d="M2 12h2" />
+              <path d="M20 12h2" />
+              <path d="m6.34 17.66-1.41 1.41" />
+              <path d="m19.07 4.93-1.41 1.41" />
+            </svg>
+            <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Card container holding workout elements -->
+    <div class="workout-container-card">
+      <div class="dashboard-header-row">
+        <div class="dashboard-title-area">
+          <h1>Workout Plan</h1>
+          <p class="subtitle">An interactive weekly hypertrophy checklist mapping splits and video tutorials.</p>
+        </div>
+
+        <div class="header-info-widget">
+          <p class="header-info-label">Workout Dashboard</p>
+          <p class="header-info-value" id="header-date-text">-- --, ----</p>
+        </div>
+      </div>
+
+      <!-- Search & Filters controls bar -->
+      <div class="controls-bar">
+        <div class="search-wrapper">
+          <svg class="search-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search exercise...">
+        </div>
+
+        <div class="filter-row">
+          <button class="filter-badge active" data-category="All" onclick="handleCategoryFilter('All')">All</button>
+          <button class="filter-badge" data-category="Chest" onclick="handleCategoryFilter('Chest')">Chest</button>
+          <button class="filter-badge" data-category="Shoulder" onclick="handleCategoryFilter('Shoulder')">Shoulders</button>
+          <button class="filter-badge" data-category="Triceps" onclick="handleCategoryFilter('Triceps')">Triceps</button>
+          <button class="filter-badge" data-category="Back" onclick="handleCategoryFilter('Back')">Back</button>
+          <button class="filter-badge" data-category="Biceps" onclick="handleCategoryFilter('Biceps')">Biceps</button>
+          <button class="filter-badge" data-category="Legs" onclick="handleCategoryFilter('Legs')">Legs</button>
+          <button class="filter-badge" data-category="Abs" onclick="handleCategoryFilter('Abs')">Abs</button>
+          <button class="filter-badge" data-category="Cardio" onclick="handleCategoryFilter('Cardio')">Cardio</button>
+        </div>
+
+        <button class="clear-history-btn" onclick="openConfirmModal()">Clear History</button>
+      </div>
+
+      <!-- Main Layout Grid -->
+      <div class="dashboard-grid">
+        <!-- Main Panel: All days accordions visible simultaneously -->
+        <div class="main-panel">
+          <div class="accordion-list">
+            <!-- Monday -->
+            <div class="day-accordion" id="accordion-Monday">
+              <div class="accordion-header" onclick="toggleAccordion('Monday')">
+                <div class="accordion-left">
+                  <span class="accordion-day-tag">Monday</span>
+                  <span class="accordion-date-tag" id="accordion-date-Monday"></span>
+                  <span class="accordion-split-focus">PUSH (Chest / Shoulder / Triceps)</span>
+                </div>
+                <div class="accordion-right">
+                  <span class="accordion-progress-label" id="accordion-progress-Monday">0/10 completed</span>
+                  <svg class="chevron-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body" id="accordion-body-Monday"></div>
+            </div>
+
+            <!-- Tuesday -->
+            <div class="day-accordion" id="accordion-Tuesday">
+              <div class="accordion-header" onclick="toggleAccordion('Tuesday')">
+                <div class="accordion-left">
+                  <span class="accordion-day-tag">Tuesday</span>
+                  <span class="accordion-date-tag" id="accordion-date-Tuesday"></span>
+                  <span class="accordion-split-focus">PULL (Back / Biceps)</span>
+                </div>
+                <div class="accordion-right">
+                  <span class="accordion-progress-label" id="accordion-progress-Tuesday">0/8 completed</span>
+                  <svg class="chevron-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body" id="accordion-body-Tuesday"></div>
+            </div>
+
+            <!-- Wednesday -->
+            <div class="day-accordion" id="accordion-Wednesday">
+              <div class="accordion-header" onclick="toggleAccordion('Wednesday')">
+                <div class="accordion-left">
+                  <span class="accordion-day-tag">Wednesday</span>
+                  <span class="accordion-date-tag" id="accordion-date-Wednesday"></span>
+                  <span class="accordion-split-focus">LEGS & CORE (Legs / Abs)</span>
+                </div>
+                <div class="accordion-right">
+                  <span class="accordion-progress-label" id="accordion-progress-Wednesday">0/10 completed</span>
+                  <svg class="chevron-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body" id="accordion-body-Wednesday"></div>
+            </div>
+
+            <!-- Thursday -->
+            <div class="day-accordion" id="accordion-Thursday">
+              <div class="accordion-header" onclick="toggleAccordion('Thursday')">
+                <div class="accordion-left">
+                  <span class="accordion-day-tag">Thursday</span>
+                  <span class="accordion-date-tag" id="accordion-date-Thursday"></span>
+                  <span class="accordion-split-focus">REST DAY</span>
+                </div>
+                <div class="accordion-right">
+                  <span class="accordion-progress-label" id="accordion-progress-Thursday">0/4 completed</span>
+                  <svg class="chevron-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body" id="accordion-body-Thursday"></div>
+            </div>
+
+            <!-- Friday -->
+            <div class="day-accordion" id="accordion-Friday">
+              <div class="accordion-header" onclick="toggleAccordion('Friday')">
+                <div class="accordion-left">
+                  <span class="accordion-day-tag">Friday</span>
+                  <span class="accordion-date-tag" id="accordion-date-Friday"></span>
+                  <span class="accordion-split-focus">SHOULDER / CHEST / TRICEPS</span>
+                </div>
+                <div class="accordion-right">
+                  <span class="accordion-progress-label" id="accordion-progress-Friday">0/10 completed</span>
+                  <svg class="chevron-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body" id="accordion-body-Friday"></div>
+            </div>
+
+            <!-- Saturday -->
+            <div class="day-accordion" id="accordion-Saturday">
+              <div class="accordion-header" onclick="toggleAccordion('Saturday')">
+                <div class="accordion-left">
+                  <span class="accordion-day-tag">Saturday</span>
+                  <span class="accordion-date-tag" id="accordion-date-Saturday"></span>
+                  <span class="accordion-split-focus">BACK / BICEPS</span>
+                </div>
+                <div class="accordion-right">
+                  <span class="accordion-progress-label" id="accordion-progress-Saturday">0/9 completed</span>
+                  <svg class="chevron-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body" id="accordion-body-Saturday"></div>
+            </div>
+
+            <!-- Sunday -->
+            <div class="day-accordion" id="accordion-Sunday">
+              <div class="accordion-header" onclick="toggleAccordion('Sunday')">
+                <div class="accordion-left">
+                  <span class="accordion-day-tag">Sunday</span>
+                  <span class="accordion-date-tag" id="accordion-date-Sunday"></span>
+                  <span class="accordion-split-focus">REST DAY</span>
+                </div>
+                <div class="accordion-right">
+                  <span class="accordion-progress-label" id="accordion-progress-Sunday">0/4 completed</span>
+                  <svg class="chevron-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </div>
+              </div>
+              <div class="accordion-body" id="accordion-body-Sunday"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Panel -->
+        <div class="sidebar-panel">
+          <!-- Clock Card Widget -->
+          <div class="card clock-widget">
+            <div class="clock-time" id="live-time">00:00:00 AM</div>
+            <div class="clock-date" id="live-date">-- --, ----</div>
+          </div>
+
+          <!-- Calendar Widget -->
+          <div class="card calendar-widget">
+            <div class="cal-widget-title">Calendar</div>
+            <div class="cal-nav-row">
+              <button class="cal-nav-btn" onclick="navigateCalendarMonth(-1)">&larr;</button>
+              <span class="cal-month-name" id="cal-month-year">June 2026</span>
+              <button class="cal-nav-btn" onclick="navigateCalendarMonth(1)">&rarr;</button>
+            </div>
+            <div class="cal-grid-header">
+              <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+            </div>
+            <div class="cal-days-grid" id="cal-days-grid">
+              <!-- populated in JS -->
+            </div>
+          </div>
+
+          <!-- Active Rest Timer Widget -->
+          <div class="card timer-widget">
+            <div class="timer-label">Set Recovery Timer</div>
+            <div class="timer-display" id="timer-display">00:00:00</div>
+            
+            <div class="timer-presets">
+              <button class="preset-btn" onclick="setTimerPreset(30)">30s</button>
+              <button class="preset-btn" onclick="setTimerPreset(60)">60s</button>
+              <button class="preset-btn" onclick="setTimerPreset(90)">90s</button>
+              <button class="preset-btn" onclick="setTimerPreset(120)">2m</button>
+            </div>
+
+            <div class="timer-input-row">
+              <input type="number" id="timer-hours" class="timer-custom-input" placeholder="00" min="0" max="23">
+              <span class="timer-separator">:</span>
+              <input type="number" id="timer-minutes" class="timer-custom-input" placeholder="00" min="0" max="59">
+              <span class="timer-separator">:</span>
+              <input type="number" id="timer-seconds" class="timer-custom-input" placeholder="00" min="0" max="59">
+              <button class="timer-set-btn" onclick="setCustomTimer()">SET</button>
+            </div>
+
+            <div class="timer-controls">
+              <button id="timer-start-pause-btn" class="timer-btn start" onclick="toggleTimer()">START</button>
+              <button class="timer-btn reset" onclick="resetTimer()">RESET</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirmation Modal Dialog -->
+  <div id="custom-confirm-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-warning-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <h3 class="modal-title">Clear Workout History?</h3>
+      <p class="modal-text">Are you sure you want to clear your entire workout history log? This action cannot be undone and will reset all date completion indicators.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeConfirmModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="executeClearHistory()">Clear History</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme toggle click handler
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      const isDark = document.body.classList.contains('dark-theme');
+      if (isDark) {
+        document.body.classList.remove('dark-theme');
+        document.body.classList.add('light-theme');
+        document.documentElement.className = 'light-theme';
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-theme');
+        document.body.classList.add('dark-theme');
+        document.documentElement.className = 'dark-theme';
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Workout Routine Data Array
+    const schedule = {
+      Monday: {
+        focus: "PUSH (Chest / Shoulder / Triceps)",
+        isRest: false,
+        groups: [
+          {
+            name: "Chest",
+            exercises: [
+              { name: "Smith Machine Incline Bench Press", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "https://youtu.be/b8DqTO6ak0k?si=eC1Mbz1ZzRNgAljl" },
+              { name: "Incline Barbell Bench Press", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "https://youtu.be/11gY7Q5D5wo?si=YEkcdhyJQLvSarwh" },
+              { name: "Flat Dumbbell Press", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "https://youtu.be/jRUC6IVav30?si=9eFl00oStk2vBmTH" },
+              { name: "Butterfly - Chest", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "https://youtu.be/iXoa_e8Po6E?si=qEK02mQbXMb5V7XB" }
+            ]
+          },
+          {
+            name: "Shoulder",
+            exercises: [
+              { name: "Dumbbell Shoulder Press", sets: "4", reps: "15,12,10,10", category: "Shoulder", tutorial: "https://youtu.be/qEwKCR5JCog?si=IG7WWSyDc23eD7MN" },
+              { name: "DB Machine Press + DB Side Lateral Raise", sets: "4", reps: "15,12,10,10", category: "Shoulder", tutorial: "https://youtu.be/3VcKaXpzqRo?si=uJS54ZCXiNhbdvWD" },
+              { name: "Cable Upright Row", sets: "4", reps: "15,12,10,10", category: "Shoulder", tutorial: "https://youtu.be/9Q-j2tPu2Sk?si=rJQBnCQ8ARA7D2n1" }
+            ]
+          },
+          {
+            name: "Triceps",
+            exercises: [
+              { name: "Overhead Rope Extension", sets: "4", reps: "15,12,10,10", category: "Triceps", tutorial: "https://youtu.be/AFMmqsjcfis?si=8Rm7M8D2jLnYoxFb" },
+              { name: "Straight Bar Pushdown", sets: "4", reps: "15,12,10,10", category: "Triceps", tutorial: "https://youtu.be/bKSiwrrbtAA?si=6D8y5z2SIcwhFrma" }
+            ]
+          },
+          {
+            name: "Cardio",
+            exercises: [
+              { name: "Running", sets: "", reps: "10-15 min", category: "Cardio", tutorial: "#" }
+            ]
+          }
+        ]
+      },
+      Tuesday: {
+        focus: "PULL (Back / Biceps)",
+        isRest: false,
+        groups: [
+          {
+            name: "Back",
+            exercises: [
+              { name: "Lat Pulldown", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/AOpi-p0cJkc?si=0me2aA2zUfWchv41" },
+              { name: "Rope Pullover + Pull-ups", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/z66PPQ_hGsc?si=kyi8VhtModIu61PG" },
+              { name: "Incline Dumbbell Rows", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/x6nEPnQ37FQ?si=pNl-mQuRWw4hNIh3" },
+              { name: "Deadlift", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtube.com/shorts/ZaTM37cfiDs?si=TTpRlpdVYX9Z2l1w" },
+              { name: "Barbell Shrug Behind The Back", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/OoUQRw91D94?si=KnFBYbV-NvtgNOlT" }
+            ]
+          },
+          {
+            name: "Biceps",
+            exercises: [
+              { name: "Alternating Dumbbell Curls", sets: "4", reps: "15,12,10,10", category: "Biceps", tutorial: "https://youtu.be/8d2we4UqOSs?si=x8VjT_2l70YDNYMn" },
+              { name: "Preacher Curl", sets: "4", reps: "15,12,10,10", category: "Biceps", tutorial: "https://youtu.be/RgN216Cumtw?si=Nfbo1n4S9IYj1tLt" }
+            ]
+          },
+          {
+            name: "Cardio",
+            exercises: [
+              { name: "Running", sets: "", reps: "10-15 min", category: "Cardio", tutorial: "#" }
+            ]
+          }
+        ]
+      },
+      Wednesday: {
+        focus: "LEGS & CORE (Legs / Abs)",
+        isRest: false,
+        groups: [
+          {
+            name: "Legs",
+            exercises: [
+              { name: "Smith Machine - Squat", sets: "4", reps: "15,12,10,10", category: "Legs", tutorial: "https://youtu.be/HPXa3HdJQnc?si=V-fuOvHHgwiJpJNs" },
+              { name: "Leg Press(Upper + lower)", sets: "4", reps: "20,20,20,20", category: "Legs", tutorial: "https://youtu.be/G4elY53UFOQ?si=8mC5cjrA9DerZrb5" },
+              { name: "Leg Extention", sets: "4", reps: "15,12,10,10", category: "Legs", tutorial: "https://youtu.be/YyvSfVjQeL0?si=ZAqS4FmVMW4CsYpj" },
+              { name: "Leg Curl", sets: "4", reps: "15,12,10,10", category: "Legs", tutorial: "https://youtu.be/ELOCsoDSmrg?si=gt7XMC_URKHpz3dd" },
+              { name: "Walking Lunges", sets: "4", reps: "15,12,10,10", category: "Legs", tutorial: "https://youtu.be/vni4lElTvsY?si=wsE2EZL49iUSYlPz" },
+              { name: "Calf Raises", sets: "4", reps: "20,20,20,20", category: "Legs", tutorial: "https://youtu.be/wxwY7GXxL4k?si=CEUyYx-ZuW6TXaFp" }
+            ]
+          },
+          {
+            name: "Abs",
+            exercises: [
+              { name: "Hanging Leg Raise", sets: "3", reps: "20,20,20", category: "Abs", tutorial: "https://youtu.be/Pr1ieGZ5atk?si=er2AjCbiCec7XTv5" },
+              { name: "Crunches", sets: "4", reps: "20,20,20,20", category: "Abs", tutorial: "https://youtu.be/0OxOI3sAIrM?si=uLZPeDeolG6c2xch" },
+              { name: "Plankes", sets: "2", reps: "1-2 min", category: "Abs", tutorial: "https://youtu.be/pSHjTRCQxIw?si=aVxNTKxR_Do1_-p9" }
+            ]
+          },
+          {
+            name: "Cardio",
+            exercises: [
+              { name: "Running", sets: "", reps: "10-15 min", category: "Cardio", tutorial: "#" }
+            ]
+          }
+        ]
+      },
+      Thursday: {
+        focus: "REST DAY",
+        isRest: true,
+        groups: []
+      },
+      Friday: {
+        focus: "SHOULDER / CHEST / TRICEPS",
+        isRest: false,
+        groups: [
+          {
+            name: "Shoulder",
+            exercises: [
+              { name: "Arnold Press", sets: "4", reps: "15,12,10,10", category: "Shoulder", tutorial: "https://youtu.be/3ml7BH7mNwQ?si=WonGkvyjCpuZh-DG" },
+              { name: "Rope Face Pull", sets: "4", reps: "15,12,10,10", category: "Shoulder", tutorial: "https://youtu.be/eFxMixk_qPQ?si=OC0ZGZzHBJvLcm1c" },
+              { name: "Single Arm Cable Side Lateral Raise", sets: "4", reps: "15,12,10,10", category: "Shoulder", tutorial: "https://youtu.be/J-6uEOkYAKM?si=B6LYvGxIIb3Mvfc5" }
+            ]
+          },
+          {
+            name: "Chest",
+            exercises: [
+              { name: "Plane Rod-Decline", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "#" },
+              { name: "Dumbbell Incline Chest Press", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "https://youtu.be/8iPEnn-ltC8?si=JPNR_iLvePKETo1s" },
+              { name: "Incline Dumbbell Fly", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "https://youtu.be/ajdFwa-qM98?si=sO9PG2SVMEzFJ6Mu" },
+              { name: "Low Cable Crossover", sets: "4", reps: "15,12,10,10", category: "Chest", tutorial: "https://youtu.be/1DZGgdUvqLE?si=Q7XJusqSIVPF3t7c" }
+            ]
+          },
+          {
+            name: "Triceps",
+            exercises: [
+              { name: "Skull Crushers", sets: "4", reps: "15,12,10,10", category: "Triceps", tutorial: "https://youtu.be/d_KZxkY_0cM?si=bfxOpn6Yi23oBVIK" },
+              { name: "Overhead Rope Extension", sets: "4", reps: "15,12,10,10", category: "Triceps", tutorial: "https://youtu.be/AFMmqsjcfis?si=5bN3yWdp5hUoPGx2" }
+            ]
+          },
+          {
+            name: "Cardio",
+            exercises: [
+              { name: "Running", sets: "", reps: "10-15 min", category: "Cardio", tutorial: "#" }
+            ]
+          }
+        ]
+      },
+      Saturday: {
+        focus: "BACK / BICEPS",
+        isRest: false,
+        groups: [
+          {
+            name: "Back",
+            exercises: [
+              { name: "Barbell Row", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/I-qgwlP0J90?si=qXpe8ikBLbAGLcLo" },
+              { name: "Rope Cable Rowing", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtube.com/results?search_query=seated+rope+cable+row+tutorial" },
+              { name: "V-Grip Lat Pulldown", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/jk7IL_yYucg?si=DrqDkJg042NTaHe2" },
+              { name: "Seated Cable Low Row", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/GZbfZ033f74?si=o-THUb5TR5jpjOJL" },
+              { name: "Back Extensions", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/ph3pddpKzzw?si=gaLUn7NtEdxpxx7y" },
+              { name: "Barbell Shrug Behind The Back", sets: "4", reps: "15,12,10,10", category: "Back", tutorial: "https://youtu.be/OoUQRw91D94?si=KnFBYbV-NvtgNOlT" }
+            ]
+          },
+          {
+            name: "Biceps",
+            exercises: [
+              { name: "E-Z Bar Curl", sets: "4", reps: "15,12,10,10", category: "Biceps", tutorial: "https://youtu.be/zG2xJ0Q5QtI?si=H3aDVMOkMJwNwW1K" },
+              { name: "Rope Hammer Curl", sets: "4", reps: "15,12,10,10", category: "Biceps", tutorial: "https://youtu.be/V8AR3SGzboU?si=7BHB4HXBW0mtlfCe" }
+            ]
+          },
+          {
+            name: "Cardio",
+            exercises: [
+              { name: "Running", sets: "", reps: "10-15 min", category: "Cardio", tutorial: "#" }
+            ]
+          }
+        ]
+      },
+      Sunday: {
+        focus: "REST DAY",
+        isRest: true,
+        groups: []
+      }
+    };
+
+    const recoveryTasks = [
+      { name: "Foam Rolling / Static Stretching", desc: "Spend 15 mins targeting tight muscle tissues." },
+      { name: "Hydration & Mineral Intake", desc: "Drink 3+ liters of water, replenish with key electrolytes." },
+      { name: "Deep Sleep Recovery", desc: "Aim for 8+ hours of high-quality sleep for protein synthesis." },
+      { name: "Active Recovery Walk", desc: "Perform a low-intensity walk to promote blood flow." },
+      { name: "Protein & Nutrition Targets", desc: "Hit daily clean protein goals to rebuild broken muscle fibers." }
+    ];
+
+    const dynamicQuotes = [
+      "The body achieves what the mind believes.",
+      "Consistency is what transforms average into excellence.",
+      "Recovery is not empty time. It is the bridge that builds your power.",
+      "We are what we repeatedly do. Aristotle says excellence is a habit.",
+      "Discipline is choosing between what you want now and what you want most."
+    ];
+
+    // State Variables
+    let selectedDate = new Date();
+    let currentCalDate = new Date();
+    let currentSearchQuery = "";
+    let currentMuscleFilter = "All";
+
+    // Application Entry
+    function initApp() {
+      const today = new Date();
+      selectedDate = today;
+      currentCalDate = new Date(today.getFullYear(), today.getMonth(), 1);
+
+      // Digital Live Clock
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // Search field listener
+      document.getElementById("search-input").addEventListener("input", (e) => {
+        currentSearchQuery = e.target.value.toLowerCase();
+        renderAllAccordions();
+      });
+
+      // Synchronize initial theme icons
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.body.className = savedTheme + "-theme";
+
+      // Select active day
+      selectCalendarDate(today);
+    }
+
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", initApp);
+    } else {
+      initApp();
+    }
+
+    // Live Clock display
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      const timeStr = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      const dateStr = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+      // Clock widgets
+      document.getElementById("live-time").textContent = timeStr;
+      document.getElementById("live-date").textContent = dateStr;
+    }
+
+    // Top info row date text
+    function updateDateWidgetDisplay() {
+      const options = { weekday: 'long', month: 'short', day: 'numeric' };
+      document.getElementById("header-date-text").textContent = selectedDate.toLocaleDateString('en-US', options);
+    }
+
+    // Helper Functions
+    function formatDateKey(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const r = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${r}`;
+    }
+
+    function parseDateKey(str) {
+      const parts = str.split("-");
+      return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function isSameDate(d1, d2) {
+      return d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate();
+    };
+
+    function getWeekDays(d) {
+      const dayOfWeek = d.getDay();
+      const distanceToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+      const monday = new Date(d);
+      monday.setDate(d.getDate() + distanceToMonday);
+
+      const dates = [];
+      for (let i = 0; i < 7; i++) {
+        const nextDay = new Date(monday);
+        nextDay.setDate(monday.getDate() + i);
+        dates.push(nextDay);
+      }
+      return dates;
+    }
+
+    function getRandomQuote(dateStr) {
+      const d = parseDateKey(dateStr);
+      const day = d.getDate();
+      return dynamicQuotes[day % dynamicQuotes.length];
+    }
+
+    // Local Storage Operations
+    function getWorkoutLog(dateStr) {
+      const logStr = localStorage.getItem("owais_workout_progress_v2");
+      if (!logStr) return { checked: {}, timestamps: {} };
+      try {
+        const parsed = JSON.parse(logStr);
+        const dayLog = parsed[dateStr];
+        if (!dayLog || typeof dayLog !== 'object') {
+          return { checked: {}, timestamps: {} };
+        }
+        return {
+          checked: dayLog.checked || {},
+          timestamps: dayLog.timestamps || {}
+        };
+      } catch (e) {
+        return { checked: {}, timestamps: {} };
+      }
+    }
+
+    function saveWorkoutLog(dateStr, data) {
+      const logStr = localStorage.getItem("owais_workout_progress_v2") || "{}";
+      let parsed = {};
+      try {
+        parsed = JSON.parse(logStr);
+      } catch (e) {
+        parsed = {};
+      }
+      parsed[dateStr] = data;
+      localStorage.setItem("owais_workout_progress_v2", JSON.stringify(parsed));
+    }
+
+    // Daily Completion Status
+    function getDayCompletionStatus(dateStr, dayName) {
+      const data = getWorkoutLog(dateStr);
+      const scheduleDay = schedule[dayName];
+      if (!scheduleDay) return false;
+
+      if (scheduleDay.isRest) {
+        const checked = data.checked || {};
+        const total = 5;
+        let completedCount = 0;
+        for (let i = 0; i < total; i++) {
+          if (checked[i]) completedCount++;
+        }
+        return completedCount === total;
+      } else {
+        const checked = data.checked || {};
+        let total = 0;
+        let completedCount = 0;
+        let exerciseIndex = 0;
+
+        scheduleDay.groups.forEach(group => {
+          group.exercises.forEach(() => {
+            total++;
+            if (checked[exerciseIndex]) completedCount++;
+            exerciseIndex++;
+          });
+        });
+        if (total === 0) return false;
+        return completedCount === total;
+      }
+    }
+
+    function isDayCompletedInLog(dateStr) {
+      const d = parseDateKey(dateStr);
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const dayName = dayNames[d.getDay()];
+      return getDayCompletionStatus(dateStr, dayName);
+    }
+
+    // Render Calendar
+    function renderCalendar() {
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth();
+
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      document.getElementById("cal-month-year").textContent = `${monthNames[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay(); // Sunday is 0
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      const grid = document.getElementById("cal-days-grid");
+      grid.innerHTML = "";
+
+      // Week starts on Monday
+      const paddingDays = (firstDay + 6) % 7;
+      for (let i = 0; i < paddingDays; i++) {
+        const empty = document.createElement("div");
+        empty.className = "cal-day-cell empty";
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const cell = document.createElement("div");
+        cell.className = "cal-day-cell";
+        cell.textContent = d;
+
+        const cellDate = new Date(year, month, d);
+        const dateStr = formatDateKey(cellDate);
+
+        if (isSameDate(cellDate, selectedDate)) {
+          cell.classList.add("selected");
+        }
+
+        if (isSameDate(cellDate, new Date())) {
+          cell.classList.add("today");
+        }
+
+        if (isDayCompletedInLog(dateStr)) {
+          cell.classList.add("completed");
+        }
+
+        cell.onclick = () => selectCalendarDate(cellDate);
+        grid.appendChild(cell);
+      }
+    }
+
+    // Select Calendar Date
+    function selectCalendarDate(date) {
+      selectedDate = date;
+      currentCalDate = new Date(date.getFullYear(), date.getMonth(), 1);
+
+      renderCalendar();
+      updateDateWidgetDisplay();
+      renderAllAccordions();
+
+      // Determine dayName
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const selectedDayName = dayNames[selectedDate.getDay()];
+
+      // Expand accordion
+      const item = document.getElementById(`accordion-${selectedDayName}`);
+      if (item) {
+        const allItems = document.querySelectorAll(".day-accordion");
+        allItems.forEach(acc => {
+          acc.classList.remove("active-day");
+          if (acc.id !== `accordion-${selectedDayName}`) {
+            acc.classList.remove("open");
+            acc.querySelector(".accordion-body").style.maxHeight = null;
+          }
+        });
+
+        item.classList.add("open");
+        const body = item.querySelector(".accordion-body");
+        body.style.maxHeight = body.scrollHeight + 100 + "px";
+        item.classList.add("active-day");
+
+        item.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    }
+
+    function navigateCalendarMonth(offset) {
+      currentCalDate.setMonth(currentCalDate.getMonth() + offset);
+      renderCalendar();
+    }
+
+    // Toggle Accordion Item
+    function toggleAccordion(dayName) {
+      const item = document.getElementById(`accordion-${dayName}`);
+      const body = item.querySelector(".accordion-body");
+      const isOpen = item.classList.contains("open");
+
+      if (isOpen) {
+        item.classList.remove("open");
+        item.classList.remove("active-day");
+        body.style.maxHeight = null;
+      } else {
+        item.classList.add("open");
+        body.style.maxHeight = body.scrollHeight + 100 + "px";
+        item.classList.add("active-day");
+      }
+    }
+
+    // Category Filter Badges
+    function handleCategoryFilter(category) {
+      currentMuscleFilter = category;
+
+      const badges = document.querySelectorAll(".filter-badge");
+      badges.forEach(badge => {
+        if (badge.dataset.category === category) {
+          badge.classList.add("active");
+        } else {
+          badge.classList.remove("active");
+        }
+      });
+
+      renderAllAccordions();
+    }
+
+    // Render all Accordions
+    function renderAllAccordions() {
+      const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+      const weekDays = getWeekDays(selectedDate);
+      const monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+      dayNames.forEach((dayName, idx) => {
+        const d = weekDays[idx];
+        const dateStr = formatDateKey(d);
+
+        // Update accordion Date tag
+        const dateLabel = document.getElementById(`accordion-date-${dayName}`);
+        if (dateLabel) {
+          dateLabel.textContent = `${monthsShort[d.getMonth()]} ${d.getDate()}`;
+        }
+
+        renderAccordionDayContent(dayName, dateStr);
+      });
+
+      adjustOpenAccordionsHeight();
+    }
+
+    function adjustOpenAccordionsHeight() {
+      const openAccordions = document.querySelectorAll(".day-accordion.open");
+      openAccordions.forEach(item => {
+        const body = item.querySelector(".accordion-body");
+        body.style.maxHeight = body.scrollHeight + 100 + "px";
+      });
+    }
+
+    // Render single accordion contents
+    function renderAccordionDayContent(dayName, dateStr) {
+      const daySchedule = schedule[dayName];
+      const accordionBodyEl = document.getElementById(`accordion-body-${dayName}`);
+      const headerProgressText = document.getElementById(`accordion-progress-${dayName}`);
+
+      const log = getWorkoutLog(dateStr);
+
+      if (!daySchedule || !accordionBodyEl) return;
+
+      if (daySchedule.isRest) {
+        // Rest Day View using .rest-card
+        let restCompletedCount = 0;
+        let matches = (currentMuscleFilter === "All" && currentSearchQuery === "");
+
+        let restHTML = `
+          <div class="rest-card">
+            <div class="rest-quote-container">
+              <svg class="rest-quote-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+              </svg>
+              <p class="rest-quote">"${getRandomQuote(dateStr)}"</p>
+              <span class="rest-quote-author">— Recovery Guidance</span>
+            </div>
+            <div class="recovery-title">Active Recovery Checklist:</div>
+            <div class="recovery-list">
+        `;
+
+        recoveryTasks.forEach((task, idx) => {
+          const checked = log.checked[idx] || false;
+          if (checked) restCompletedCount++;
+
+          if (matches) {
+            restHTML += `
+              <div class="recovery-item ${checked ? 'checked' : ''}">
+                <div class="recovery-item-left">
+                  <label class="custom-checkbox checkbox-btn">
+                    <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleExercise('${dayName}', '${dateStr}', ${idx})">
+                    <span class="checkmark">
+                      <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </span>
+                  </label>
+                  <div class="recovery-details">
+                    <span class="recovery-name">${task.name}</span>
+                    <span class="recovery-desc">${task.desc}</span>
+                  </div>
+                </div>
+                ${checked && log.timestamps[idx] ? `<span class="time-badge">${log.timestamps[idx]}</span>` : ''}
+              </div>
+            `;
+          }
+        });
+
+        restHTML += `
+            </div>
+          </div>
+        `;
+
+        if (!matches) {
+          restHTML = `<div class="empty-filtered-state">Rest day - no active exercises matching search/filter.</div>`;
+        }
+
+        accordionBodyEl.innerHTML = restHTML;
+
+        // Progress label
+        const percent = Math.round((restCompletedCount / 5) * 100);
+        headerProgressText.textContent = `${restCompletedCount}/5 completed (${percent}%)`;
+
+      } else {
+        // Workout Day View using .exercise-row
+        let dayHTML = "";
+        let globalIndex = 0;
+        let matchCount = 0;
+        let completedCount = 0;
+        let totalExercises = 0;
+
+        daySchedule.groups.forEach(group => {
+          let groupHTML = "";
+
+          group.exercises.forEach(ex => {
+            const checked = log.checked[globalIndex] || false;
+            if (checked) completedCount++;
+            totalExercises++;
+
+            const matchesSearch = ex.name.toLowerCase().includes(currentSearchQuery);
+            const matchesCategory = currentMuscleFilter === "All" || ex.category.toLowerCase() === currentMuscleFilter.toLowerCase();
+
+            if (matchesSearch && matchesCategory) {
+              groupHTML += `
+                <div class="exercise-row cat-${ex.category.toLowerCase()} ${checked ? 'checked' : ''}">
+                  <div class="exercise-details">
+                    <span class="exercise-name">${ex.name}</span>
+                    <span class="exercise-specs">${ex.category} &bull; ${ex.sets ? `${ex.sets} Sets x ` : ''}${ex.reps}</span>
+                  </div>
+                  <div class="exercise-right">
+                    ${checked && log.timestamps[globalIndex] ? `<span class="time-badge">${log.timestamps[globalIndex]}</span>` : ''}
+                    ${ex.tutorial && ex.tutorial !== "#" ? `<a href="${ex.tutorial}" target="_blank" class="tutorial-link">Tutorial</a>` : ''}
+                    <label class="custom-checkbox checkbox-btn">
+                      <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleExercise('${dayName}', '${dateStr}', ${globalIndex})">
+                      <span class="checkmark">
+                        <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              `;
+              matchCount++;
+            }
+            globalIndex++;
+          });
+
+          if (groupHTML !== "") {
+            dayHTML += `
+              <div class="exercise-group-section">
+                <h4 class="exercise-type-subheader">${group.name}</h4>
+                <div class="exercise-cards-list">
+                  ${groupHTML}
+                </div>
+              </div>
+            `;
+          }
+        });
+
+        if (matchCount === 0) {
+          dayHTML = `<div class="empty-filtered-state">No matching exercises on this day.</div>`;
+        }
+
+        accordionBodyEl.innerHTML = dayHTML;
+
+        // Progress label
+        if (totalExercises > 0) {
+          const percent = Math.round((completedCount / totalExercises) * 100);
+          headerProgressText.textContent = `${completedCount}/${totalExercises} completed (${percent}%)`;
+        } else {
+          headerProgressText.textContent = "0/0 completed (0%)";
+        }
+      }
+    }
+
+    // Toggle Exercise checkmark
+    function toggleExercise(dayName, dateStr, exerciseIndex) {
+      const log = getWorkoutLog(dateStr);
+      const isChecked = log.checked[exerciseIndex] || false;
+
+      log.checked[exerciseIndex] = !isChecked;
+
+      if (!isChecked) {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        const timeStr = `${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
+        log.timestamps[exerciseIndex] = timeStr;
+      } else {
+        delete log.timestamps[exerciseIndex];
+      }
+
+      saveWorkoutLog(dateStr, log);
+
+      // Re-render
+      renderAccordionDayContent(dayName, dateStr);
+      renderCalendar();
+    }
+
+    // Confirmation Modal Controls
+    function openConfirmModal() {
+      document.getElementById("custom-confirm-modal").classList.add("open");
+    }
+
+    function closeConfirmModal() {
+      document.getElementById("custom-confirm-modal").classList.remove("open");
+    }
+
+    function executeClearHistory() {
+      localStorage.removeItem("owais_workout_progress_v2");
+      closeConfirmModal();
+
+      // Refresh
+      renderAllAccordions();
+      renderCalendar();
+    }
+
+    // Countdown Timer widget variables and logic
+    let timerInterval = null;
+    let timerDuration = 0;
+    let timerTimeRemaining = 0;
+    let isTimerRunning = false;
+
+    function updateTimerUI() {
+      const h = Math.floor(timerTimeRemaining / 3600);
+      const m = Math.floor((timerTimeRemaining % 3600) / 60);
+      const s = timerTimeRemaining % 60;
+
+      const displayStr = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      document.getElementById("timer-display").textContent = displayStr;
+    }
+
+    function setTimerPreset(seconds) {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      const btn = document.getElementById("timer-start-pause-btn");
+      btn.textContent = "START";
+      btn.className = "timer-btn start";
+
+      timerDuration = seconds;
+      timerTimeRemaining = seconds;
+      updateTimerUI();
+
+      // Fill inputs
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = seconds % 60;
+      document.getElementById("timer-hours").value = h;
+      document.getElementById("timer-minutes").value = m;
+      document.getElementById("timer-seconds").value = s;
+    }
+
+    function setCustomTimer() {
+      const hInput = document.getElementById('timer-hours');
+      const mInput = document.getElementById('timer-minutes');
+      const sInput = document.getElementById('timer-seconds');
+
+      const h = parseInt(hInput.value, 10) || 0;
+      const m = parseInt(mInput.value, 10) || 0;
+      const s = parseInt(sInput.value, 10) || 0;
+
+      const totalSeconds = (h * 3600) + (m * 60) + s;
+
+      if (totalSeconds >= 0 && totalSeconds <= 86400) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        const btn = document.getElementById("timer-start-pause-btn");
+        btn.textContent = "START";
+        btn.className = "timer-btn start";
+
+        timerDuration = totalSeconds;
+        timerTimeRemaining = totalSeconds;
+        updateTimerUI();
+      }
+
+      hInput.value = '';
+      mInput.value = '';
+      sInput.value = '';
+    }
+
+    function toggleTimer() {
+      if (timerTimeRemaining <= 0) return;
+
+      const btn = document.getElementById("timer-start-pause-btn");
+
+      if (isTimerRunning) {
+        clearInterval(timerInterval);
+        isTimerRunning = false;
+        btn.textContent = "START";
+        btn.className = "timer-btn start";
+      } else {
+        isTimerRunning = true;
+        btn.textContent = "PAUSE";
+        btn.className = "timer-btn pause";
+
+        timerInterval = setInterval(() => {
+          if (timerTimeRemaining > 0) {
+            timerTimeRemaining--;
+            updateTimerUI();
+          } else {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            btn.textContent = "START";
+            btn.className = "timer-btn start";
+            playChime();
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      const btn = document.getElementById("timer-start-pause-btn");
+      btn.textContent = "START";
+      btn.className = "timer-btn start";
+
+      timerTimeRemaining = timerDuration;
+      updateTimerUI();
+    }
+
+    // Synthesized Alarm chime using Web Audio API
+    function playChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gainNode = ctx.createGain();
+
+        osc1.type = "sine";
+        osc1.frequency.setValueAtTime(880, ctx.currentTime);
+
+        osc2.type = "sine";
+        osc2.frequency.setValueAtTime(1320, ctx.currentTime);
+
+        gainNode.gain.setValueAtTime(0.4, ctx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+
+        osc1.connect(gainNode);
+        osc2.connect(gainNode);
+        gainNode.connect(ctx.destination);
+
+        osc1.start();
+        osc2.start();
+        osc1.stop(ctx.currentTime + 1.2);
+        osc2.stop(ctx.currentTime + 1.2);
+      } catch (err) {
+        console.warn("Chime playback error:", err);
+      }
+    }
+
+    function printArchived() {
+      window.open("archived-workout.html?print=true", "_blank");
+    }
+  </script>
+</body>
+
+</html>

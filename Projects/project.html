@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>owais</title>
-  <link rel="stylesheet" href="./css/styles.css">
+  <title>Projects</title>
+  <link rel="stylesheet" href="../css/styles.css">
   <script>
     (function() {
       const savedTheme = localStorage.getItem('theme');
@@ -25,10 +25,10 @@
       <nav id="nav">
         <div class="nav-container">
           <div class="nav-links-left">
-            <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
-            <a class="nav-link" href="./blog.html">Blog</a>
-            <a class="nav-link" href="./Projects/project.html">Projects</a>
-            <a class="nav-link" href="./cv.html">CV</a>
+            <a class="nav-link" href="../index.html">Home</a>
+            <a class="nav-link" href="../blog.html">Blog</a>
+            <a class="nav-link active" href="../Projects/project.html" aria-current="page">Projects</a>
+            <a class="nav-link" href="../cv.html">CV</a>
           </div>  
           <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
             <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -44,15 +44,31 @@
 
     <main>
       <section>
-        <p class="lead-p">
-          I am Owais, currently a student with a lifelong passion for Computers, Technology, and Mathematics. I also used to run Track and Field and was the fastest 100m runner in my state (JK). However, due to personal reasons, I had to leave the sport. I have always tried to come back, but now I only do morning walks.
-        </p>
-        <h1 style="margin-top: 48px;">
-          Contact Me
+        <h1 class="mb-2">
+          Projects
         </h1>
-        <p class="lead-p">
-          You can reach out to me at <a href="mailto:owais60193@gmail.com" class="email-link">owais60193@gmail.com</a>. Also check out my socials below:
-        </p>
+        <p style="color: var(--muted); font-size: 15px; margin-bottom: 32px;">A collection of applications and platforms I have built.</p>
+
+        <div class="projects-grid">
+          <!-- PharmaDesk Project -->
+          <div class="project-card">
+            <h2 class="project-title" style="font-size: 22px; font-weight: 800;">PharmaDesk</h2>
+            <p class="project-desc" style="font-size: 16px; margin-top: 8px; margin-bottom: 16px; color: var(--fg); opacity: 0.9;">
+              A comprehensive B2B SaaS platform designed to automate pharmacy inventory, billing, challan processing, and sales tracking. Features smart batch expiry alerts, automated invoice generation, and AI-driven inventory optimization.
+            </p>
+            
+            <div class="tech-stack-details" style="font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6;">
+              <strong style="color: var(--fg);">Tech Stack:</strong> Next.js, TanStack Tables, shadcn/ui, PostgreSQL database (hosted on Supabase), Supabase Auth, Razorpay for payments, Resend for transaction emails, and Next.js API routes.
+              <br>
+              <strong style="color: var(--fg);">Future Roadmap:</strong> Rebuilding the backend services in NestJS or Go for maximum horizontal scale.
+            </div>
+
+            <div class="project-links" style="font-size: 14px; font-weight: 700;">
+              <a class="project-link" href="https://www.pharmadesk.in/" target="_blank" rel="noopener noreferrer" style="color: var(--blue-hover);">Live Website</a>
+              <a class="project-link" href="./pharmadesk.html" style="color: var(--fg);">Read Details</a>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -89,6 +105,6 @@
     </footer>
   </div>
 
-  <script src="./js/main.js" defer></script>
+  <script src="../js/main.js" defer></script>
 </body>
 </html>
