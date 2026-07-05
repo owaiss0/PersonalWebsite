@@ -217,6 +217,17 @@ p {
   font-size: 20px;
 }
 
+.hl {
+  background-color: #fef08a;
+  color: #1c1917;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+body.dark-theme .hl {
+  background-color: #a16207;
+  color: #fef9c3;
+}
+
 .email-link {
   color: var(--blue-hover);
   text-decoration: underline;

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>morning tracker — owais</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf9f6;
+      --fg: #1a1a2e;
+      --panel-bg: #ffffff;
+      --border-color: rgba(26, 26, 46, 0.08);
+      --nav-border: rgba(26, 26, 46, 0.6);
+      --accent: #e07c4f;
+      --accent-hover: #c96a3e;
+      --accent-light: rgba(224, 124, 79, 0.1);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.1);
+      --warning: #f59e0b;
+      --muted: #787878;
+      --card-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.02);
+      --pill-bg: #f1f5f9;
+      --pill-active: #1a1a2e;
+      --pill-active-fg: #ffffff;
+      --hl-bg: #fef3c7;
+      --hl-fg: #1c1917;
+      --color-bath: #3b82f6;
+      --color-hair: #8b5cf6;
+      --color-daily: #10b981;
+      --color-oil: #f97316;
+    }
+    .dark-theme {
+      --bg: #0f0f18;
+      --fg: #e8e6e1;
+      --panel-bg: #1a1a28;
+      --border-color: rgba(232, 230, 225, 0.07);
+      --nav-border: rgba(232, 230, 225, 0.35);
+      --accent: #e8a87c;
+      --accent-light: rgba(232, 168, 124, 0.15);
+      --success: #34d399;
+      --success-bg: rgba(52, 211, 153, 0.12);
+      --muted: #888;
+      --card-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+      --pill-bg: #252538;
+      --pill-active: #e8e6e1;
+      --pill-active-fg: #0f0f18;
+      --hl-bg: #a16207;
+      --hl-fg: #fef9c3;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--fg); font-family: 'Montserrat', -apple-system, sans-serif; font-weight: 500; min-height: 100vh; font-size: 16px; line-height: 1.5; transition: background .16s, color .16s, border-color .16s; }
+    .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    nav { margin-bottom: 32px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; }
+    .nav-container { display: flex; justify-content: space-between; align-items: center; }
+    .nav-links-left { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-link { font-weight: 600; font-size: 15px; color: var(--muted); text-decoration: none; padding: 8px 12px; border-radius: 6px; transition: all .2s; }
+    .nav-link.active { color: var(--fg); background: var(--pill-bg); }
+    .nav-link:hover { color: var(--accent); }
+    .nav-buttons-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .theme-toggle-btn { background: transparent; border: 1px solid var(--border-color); color: var(--muted); cursor: pointer; width: 38px; height: 38px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all .16s; }
+    .theme-toggle-btn:hover { color: var(--fg); background: rgba(255,255,255,.05); }
+    .light-theme .theme-toggle-btn:hover { background: rgba(0,0,0,.05); }
+    .theme-toggle-btn svg { stroke: currentColor; fill: none; }
+    .dark-theme .sun-icon { display: block; }
+    .dark-theme .moon-icon { display: none; }
+    .light-theme .sun-icon { display: none; }
+    .light-theme .moon-icon { display: block; }
+    .main-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; gap: 24px; }
+    .header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+    .title-area h1 { font-weight: 800; font-size: 32px; letter-spacing: -.025em; color: var(--fg); line-height: 1.2; margin-bottom: 8px; }
+    .subtitle { color: var(--muted); font-size: 15px; }
+    .header-widget { text-align: right; }
+    .header-widget-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+    .header-widget-value { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 2px; font-family: 'Geist Mono', monospace; }
+    .controls-bar { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+    .search-wrapper { position: relative; flex: 1; min-width: 240px; max-width: 320px; }
+    .search-input { width: 100%; height: 40px; padding: 0 16px 0 40px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg); color: var(--fg); font-family: 'Montserrat', sans-serif; font-size: 14px; outline: none; transition: all .2s; }
+    .search-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+    .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .clear-btn { height: 40px; padding: 0 16px; border-radius: 8px; background: transparent; border: 1px solid rgba(239,68,68,0.4); color: #ef4444; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    .clear-btn:hover { background: rgba(239,68,68,0.08); border-color: #ef4444; }
+    .grid-layout { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: start; }
+    @media (min-width: 900px) { .grid-layout { grid-template-columns: 1.6fr 1fr; } }
+    .accordion-list { display: flex; flex-direction: column; gap: 16px; }
+    .day-accordion { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: border-color .2s; }
+    .accordion-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; transition: background .15s; }
+    .accordion-header:hover { background: var(--pill-bg); }
+    .accordion-left { display: flex; align-items: center; gap: 12px; flex: 1; flex-wrap: wrap; }
+    .accordion-day { font-size: 16px; font-weight: 700; color: var(--fg); }
+    .accordion-date { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--pill-bg); padding: 2px 8px; border-radius: 10px; }
+    .accordion-focus { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .accordion-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .accordion-progress { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .chevron { color: var(--muted); transition: transform .25s; }
+    .day-accordion.open .chevron { transform: rotate(180deg); }
+    .accordion-body { max-height: 0; overflow: hidden; transition: max-height .25s, padding .25s; padding: 0 20px; }
+    .day-accordion.open .accordion-body { border-top: 1px solid var(--border-color); padding: 20px; max-height: 2500px; }
+    .group-header { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; margin-top: 16px; }
+    .group-header:first-child { margin-top: 0; }
+    .task-row { position: relative; background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; display: flex; padding: 12px 16px; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; transition: all .15s; }
+    .task-row:last-child { margin-bottom: 0; }
+    .task-row:hover { background: var(--pill-bg); }
+    .task-row.checked { opacity: .7; }
+    .task-row:hover:not(.checked) .task-name { color: var(--accent); }
+    .task-details { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .task-name { font-size: 15px; font-weight: 700; color: var(--fg); }
+    .task-row.checked .task-name { text-decoration: line-through; color: var(--muted); }
+    .task-specs { font-size: 12px; color: var(--muted); font-weight: 600; }
+    .task-right { display: flex; align-items: center; gap: 12px; }
+    .custom-checkbox { position: relative; display: inline-block; width: 20px; height: 20px; cursor: pointer; flex-shrink: 0; }
+    .custom-checkbox input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+    .checkmark { position: absolute; top: 0; left: 0; height: 20px; width: 20px; background: var(--pill-bg); border: 1px solid var(--border-color); border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+    .custom-checkbox:hover input~.checkmark { border-color: var(--accent); }
+    .custom-checkbox input:checked~.checkmark { background: var(--success); border-color: var(--success); }
+    .check-icon { width: 14px; height: 14px; fill: none; stroke: white; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 20; stroke-dashoffset: 20; transition: stroke-dashoffset .2s; }
+    .custom-checkbox input:checked~.checkmark .check-icon { stroke-dashoffset: 0; }
+    .time-badge { font-size: 11px; color: var(--success); font-weight: 700; background: var(--success-bg); padding: 3px 8px; border-radius: 4px; font-family: 'Geist Mono', monospace; }
+    .sidebar-panel { display: flex; flex-direction: column; gap: 24px; }
+    .card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; box-shadow: var(--card-shadow); }
+    .clock-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .clock-time { font-family: 'Geist Mono', monospace; font-size: 26px; font-weight: 700; color: var(--fg); letter-spacing: -.02em; margin-bottom: 6px; }
+    .clock-date { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .cal-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--fg); margin-bottom: 16px; }
+    .cal-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .cal-month { font-size: 14px; font-weight: 700; color: var(--fg); }
+    .cal-nav-btn { background: transparent; border: 1px solid var(--border-color); color: var(--muted); width: 28px; height: 28px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; }
+    .cal-nav-btn:hover { color: var(--fg); border-color: var(--fg); }
+    .cal-grid-header { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+    .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: var(--fg); border-radius: 8px; cursor: pointer; position: relative; transition: all .2s; }
+    .cal-day:hover:not(.empty) { background: var(--pill-bg); }
+    .cal-day.selected { background: var(--accent) !important; color: white !important; }
+    .cal-day.today:not(.selected) { border: 1.5px solid var(--fg); }
+    .cal-day.completed::after { content: ''; position: absolute; bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background: var(--success); }
+    .cal-day.selected.completed::after { background: white; }
+    .cal-day.empty { cursor: default; }
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.4); backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal-card { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; width: 90%; max-width: 440px; padding: 24px; box-shadow: var(--card-shadow); transform: scale(.95); transition: transform .2s; display: flex; flex-direction: column; gap: 16px; }
+    .modal-overlay.open .modal-card { transform: scale(1); }
+    .modal-icon { color: #ef4444; width: 48px; height: 48px; border-radius: 50%; background: rgba(239,68,68,.1); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .modal-title { font-size: 18px; font-weight: 800; text-align: center; color: var(--fg); }
+    .modal-text { font-size: 14px; color: var(--muted); text-align: center; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 12px; }
+    .modal-btn { flex: 1; height: 40px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; border: none; transition: all .2s; }
+    .modal-btn.cancel { background: var(--pill-bg); color: var(--fg); border: 1px solid var(--border-color); }
+    .modal-btn.cancel:hover { background: rgba(0,0,0,.05); }
+    .dark-theme .modal-btn.cancel:hover { background: rgba(255,255,255,.05); }
+    .modal-btn.confirm { background: #ef4444; color: white; }
+    .modal-btn.confirm:hover { background: #dc2626; box-shadow: 0 4px 12px rgba(239,68,68,.2); }
+    .empty-state { text-align: center; padding: 32px 16px; color: var(--muted); font-size: 14px; border: 1px dashed var(--border-color); border-radius: 8px; }
+    .reset-badge { font-size: 11px; color: var(--muted); font-weight: 600; }
+    @media (max-width:640px) {
+      .container { padding: 20px 14px; }
+      nav { margin-bottom: 20px; padding-bottom: 12px; }
+      .nav-container { flex-direction: column; align-items: center; gap: 12px; }
+      .nav-links-left { gap: 4px; justify-content: center; }
+      .nav-link { font-size: 14px; padding: 6px 10px; }
+      .main-card { padding: 16px; gap: 12px; }
+      .controls-bar { flex-direction: column; align-items: stretch; }
+      .search-wrapper { max-width: 100%; width: 100%; }
+      .clear-btn { width: 100%; }
+      .title-area h1 { font-size: 24px; }
+    }
+    @media (max-width:480px) {
+      .accordion-header { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 14px; }
+      .accordion-left { flex-wrap: wrap; gap: 6px; }
+      .accordion-right { width: 100%; justify-content: space-between; border-top: 1px dashed var(--border-color); padding-top: 8px; margin-top: 4px; }
+      .accordion-day { font-size: 13px; }
+      .accordion-body { padding: 12px; }
+      .task-row { padding: 10px 12px; }
+      .task-name { font-size: 13px; }
+      .clock-time { font-size: 20px; }
+    }
+  </style>
+  <script>
+    (function() {
+      const t = localStorage.getItem('theme');
+      if (t === 'dark') document.documentElement.className = 'dark-theme';
+      else document.documentElement.className = 'light-theme';
+    })();
+  </script>
+</head>
+<body>
+  <script>document.body.className = document.documentElement.className;</script>
+  <div class="container">
+    <nav>
+      <div class="nav-container">
+        <div class="nav-links-left">
+          <a class="nav-link" href="./index.html">Home</a>
+          <a class="nav-link" href="./blog.html">Blog</a>
+          <a class="nav-link" href="./Projects/project.html">Projects</a>
+          <a class="nav-link" href="./cv.html">CV</a>
+          <a class="nav-link active" href="./morning-tracker.html">Morning</a>
+        </div>
+        <div class="nav-buttons-right">
+          <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-card">
+      <div class="header-row">
+        <div class="title-area">
+          <h1>Morning Tracker</h1>
+          <p class="subtitle">Track your daily care routine — bath, hair, and daily habits.</p>
+        </div>
+        <div class="header-widget">
+          <p class="header-widget-label">Tracker</p>
+          <p class="header-widget-value" id="header-date">-- --, ----</p>
+        </div>
+      </div>
+
+      <div class="controls-bar">
+        <div class="search-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="search" class="search-input" placeholder="Search tasks...">
+        </div>
+        <button class="clear-btn" onclick="openModal()">Clear History</button>
+      </div>
+
+      <div class="grid-layout">
+        <div class="main-panel">
+          <div class="accordion-list" id="accordion-list"></div>
+        </div>
+        <div class="sidebar-panel">
+          <div class="card clock-card">
+            <div class="clock-time" id="live-time">00:00:00 AM</div>
+            <div class="clock-date" id="live-date">-- --, ----</div>
+          </div>
+          <div class="card">
+            <div class="cal-title">Calendar</div>
+            <div class="cal-nav">
+              <button class="cal-nav-btn" onclick="navMonth(-1)">&larr;</button>
+              <span class="cal-month" id="cal-month">June 2026</span>
+              <button class="cal-nav-btn" onclick="navMonth(1)">&rarr;</button>
+            </div>
+            <div class="cal-grid-header">
+              <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h3 class="modal-title">Clear tracker history?</h3>
+      <p class="modal-text">This will reset all checked tasks and completion data. Cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeModal()">Cancel</button>
+        <button class="modal-btn confirm" onclick="clearAll()">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const weekDays = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+    const schedule = {
+      Monday: { focus: 'Full bath + Shampoo day', groups: [
+        { name: 'Bath', items: [
+          { name: 'Full bath with soap', spec: 'underarms, groin, feet, neck, ears' },
+          { name: 'Dry body & hair properly', spec: '' }
+        ]},
+        { name: 'Hair', items: [
+          { name: 'Apply oil (optional)', spec: 'coconut/mustard, 1-2h before' },
+          { name: 'Shampoo', spec: '' },
+          { name: 'Conditioner', spec: 'middle & ends only' },
+          { name: 'Pat hair dry gently', spec: '' }
+        ]},
+        { name: 'Daily', items: [
+          { name: '1 glass water after waking', spec: '' },
+          { name: 'Brush teeth', spec: 'morning & night' },
+          { name: 'Wash face with cleanser', spec: '' },
+          { name: 'Sunscreen SPF 30+', spec: 'if going out' },
+          { name: 'Drink 2L+ water', spec: '' },
+          { name: 'Sleep 7-8 hours', spec: '' }
+        ]}
+      ]},
+      Tuesday: { focus: 'Water-only bath', groups: [
+        { name: 'Bath', items: [
+          { name: 'Water-only bath', spec: '' },
+          { name: 'Soap on underarms', spec: '' },
+          { name: 'Soap on groin/private area', spec: '' },
+          { name: 'Soap on feet', spec: '' }
+        ]},
+        { name: 'Hair', items: [
+          { name: 'Water rinse only', spec: 'no shampoo, no conditioner' }
+        ]},
+        { name: 'Daily', items: [
+          { name: '1 glass water after waking', spec: '' },
+          { name: 'Brush teeth', spec: 'morning & night' },
+          { name: 'Wash face with cleanser', spec: '' },
+          { name: 'Sunscreen SPF 30+', spec: 'if going out' },
+          { name: 'Drink 2L+ water', spec: '' },
+          { name: 'Sleep 7-8 hours', spec: '' }
+        ]}
+      ]},
+      Wednesday: { focus: 'Full bath + Water rinse', groups: [
+        { name: 'Bath', items: [
+          { name: 'Full bath with soap', spec: '' },
+          { name: 'Dry body & hair properly', spec: '' }
+        ]},
+        { name: 'Hair', items: [
+          { name: 'Water rinse only', spec: 'no shampoo, no conditioner' }
+        ]},
+        { name: 'Daily', items: [
+          { name: '1 glass water after waking', spec: '' },
+          { name: 'Brush teeth', spec: 'morning & night' },
+          { name: 'Wash face with cleanser', spec: '' },
+          { name: 'Sunscreen SPF 30+', spec: 'if going out' },
+          { name: 'Drink 2L+ water', spec: '' },
+          { name: 'Sleep 7-8 hours', spec: '' }
+        ]}
+      ]},
+      Thursday: { focus: 'Water-only bath + Shampoo day', groups: [
+        { name: 'Bath', items: [
+          { name: 'Water-only bath', spec: '' },
+          { name: 'Soap on underarms', spec: '' },
+          { name: 'Soap on groin/private area', spec: '' },
+          { name: 'Soap on feet', spec: '' }
+        ]},
+        { name: 'Hair', items: [
+          { name: 'Apply oil (optional)', spec: 'coconut/mustard, 1-2h before' },
+          { name: 'Shampoo', spec: '' },
+          { name: 'Conditioner', spec: 'middle & ends only' },
+          { name: 'Pat hair dry gently', spec: '' }
+        ]},
+        { name: 'Daily', items: [
+          { name: '1 glass water after waking', spec: '' },
+          { name: 'Brush teeth', spec: 'morning & night' },
+          { name: 'Wash face with cleanser', spec: '' },
+          { name: 'Sunscreen SPF 30+', spec: 'if going out' },
+          { name: 'Drink 2L+ water', spec: '' },
+          { name: 'Sleep 7-8 hours', spec: '' }
+        ]}
+      ]},
+      Friday: { focus: 'Full bath + Water rinse', groups: [
+        { name: 'Bath', items: [
+          { name: 'Full bath with soap', spec: '' },
+          { name: 'Dry body & hair properly', spec: '' }
+        ]},
+        { name: 'Hair', items: [
+          { name: 'Water rinse only', spec: 'no shampoo, no conditioner' }
+        ]},
+        { name: 'Daily', items: [
+          { name: '1 glass water after waking', spec: '' },
+          { name: 'Brush teeth', spec: 'morning & night' },
+          { name: 'Wash face with cleanser', spec: '' },
+          { name: 'Sunscreen SPF 30+', spec: 'if going out' },
+          { name: 'Drink 2L+ water', spec: '' },
+          { name: 'Sleep 7-8 hours', spec: '' }
+        ]}
+      ]},
+      Saturday: { focus: 'Water-only bath', groups: [
+        { name: 'Bath', items: [
+          { name: 'Water-only bath', spec: '' },
+          { name: 'Soap on underarms', spec: '' },
+          { name: 'Soap on groin/private area', spec: '' },
+          { name: 'Soap on feet', spec: '' }
+        ]},
+        { name: 'Hair', items: [
+          { name: 'Water rinse only', spec: 'no shampoo, no conditioner' }
+        ]},
+        { name: 'Daily', items: [
+          { name: '1 glass water after waking', spec: '' },
+          { name: 'Brush teeth', spec: 'morning & night' },
+          { name: 'Wash face with cleanser', spec: '' },
+          { name: 'Sunscreen SPF 30+', spec: 'if going out' },
+          { name: 'Drink 2L+ water', spec: '' },
+          { name: 'Sleep 7-8 hours', spec: '' }
+        ]}
+      ]},
+      Sunday: { focus: 'Full bath + Shampoo day', groups: [
+        { name: 'Bath', items: [
+          { name: 'Full bath with soap', spec: '' },
+          { name: 'Dry body & hair properly', spec: '' }
+        ]},
+        { name: 'Hair', items: [
+          { name: 'Shampoo', spec: '' },
+          { name: 'Conditioner', spec: 'middle & ends only' },
+          { name: 'Pat hair dry gently', spec: '' }
+        ]},
+        { name: 'Daily', items: [
+          { name: '1 glass water after waking', spec: '' },
+          { name: 'Brush teeth', spec: 'morning & night' },
+          { name: 'Wash face with cleanser', spec: '' },
+          { name: 'Sunscreen SPF 30+', spec: 'if going out' },
+          { name: 'Drink 2L+ water', spec: '' },
+          { name: 'Sleep 7-8 hours', spec: '' }
+        ]}
+      ]}
+    };
+
+    function getDayId(day, idx) { return day + '-' + idx; }
+
+    function loadState() {
+      try { return JSON.parse(localStorage.getItem('mtState')) || {}; }
+      catch { return {}; }
+    }
+
+    function saveState(s) { localStorage.setItem('mtState', JSON.stringify(s)); }
+
+    function isChecked(day, idx) {
+      const s = loadState();
+      return s[getDayId(day, idx)] === true;
+    }
+
+    function toggleCheck(day, idx) {
+      const s = loadState();
+      const id = getDayId(day, idx);
+      if (s[id]) delete s[id];
+      else s[id] = true;
+      saveState(s);
+      render();
+    }
+
+    function totalItems(day) {
+      let c = 0;
+      schedule[day].groups.forEach(g => c += g.items.length);
+      return c;
+    }
+
+    function checkedItems(day) {
+      let c = 0;
+      let idx = 0;
+      schedule[day].groups.forEach(g => {
+        g.items.forEach(() => {
+          if (isChecked(day, idx)) c++;
+          idx++;
+        });
+      });
+      return c;
+    }
+
+    function updateCalendarCompleted() {
+      const s = loadState();
+      const days = {};
+      Object.keys(s).forEach(k => {
+        const parts = k.split('-');
+        if (parts.length >= 2) {
+          const dayName = parts.slice(0, -1).join('-');
+          days[dayName] = true;
+        }
+      });
+      return days;
+    }
+
+    function render() {
+      const list = document.getElementById('accordion-list');
+      list.innerHTML = '';
+      const state = loadState();
+      const completedDays = updateCalendarCompleted();
+
+      weekDays.forEach(day => {
+        const total = totalItems(day);
+        const checked = checkedItems(day);
+        const allDone = checked === total && total > 0;
+        const div = document.createElement('div');
+        div.className = 'day-accordion' + (allDone ? ' active-day' : '');
+        if (allDone) div.classList.add('open');
+
+        let groupsHtml = '';
+        let idx = 0;
+        schedule[day].groups.forEach((g, gi) => {
+          groupsHtml += '<div class="group-header">' + g.name + '</div>';
+          g.items.forEach(item => {
+            const cid = getDayId(day, idx);
+            const ch = state[cid] === true;
+            groupsHtml += '<div class="task-row' + (ch ? ' checked' : '') + '" data-day="' + day + '" data-idx="' + idx + '">' +
+              '<div class="task-details">' +
+                '<div class="task-name">' + item.name + '</div>' +
+                (item.spec ? '<div class="task-specs">' + item.spec + '</div>' : '') +
+              '</div>' +
+              '<div class="task-right">' +
+                '<label class="custom-checkbox">' +
+                  '<input type="checkbox" ' + (ch ? 'checked' : '') + ' onchange="toggleCheck(\'' + day + '\',' + idx + ')">' +
+                  '<span class="checkmark"><svg class="check-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>' +
+                '</label>' +
+              '</div>' +
+            '</div>';
+            idx++;
+          });
+        });
+
+        div.innerHTML =
+          '<div class="accordion-header" onclick="toggleAccordion(this)">' +
+            '<div class="accordion-left">' +
+              '<span class="accordion-day">' + day + '</span>' +
+              '<span class="accordion-date">' + schedule[day].focus + '</span>' +
+            '</div>' +
+            '<div class="accordion-right">' +
+              '<span class="accordion-progress">' + checked + '/' + total + '</span>' +
+              '<svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+            '</div>' +
+          '</div>' +
+          '<div class="accordion-body">' + groupsHtml + '</div>';
+        list.appendChild(div);
+      });
+
+      renderCalendar(completedDays);
+    }
+
+    function toggleAccordion(header) {
+      const accordion = header.parentElement;
+      accordion.classList.toggle('open');
+    }
+
+    // --- SEARCH ---
+    document.getElementById('search').addEventListener('input', function() {
+      const q = this.value.toLowerCase();
+      document.querySelectorAll('.task-row').forEach(row => {
+        const name = row.querySelector('.task-name').textContent.toLowerCase();
+        row.style.display = name.includes(q) ? '' : 'none';
+      });
+    });
+
+    // --- CLOCK ---
+    function updateClock() {
+      const now = new Date();
+      const opts = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+      document.getElementById('live-date').textContent = now.toLocaleDateString('en-US', opts);
+      document.getElementById('header-date').textContent = now.toLocaleDateString('en-US', opts);
+      document.getElementById('live-time').textContent = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // --- CALENDAR ---
+    let calMonth = new Date().getMonth();
+    let calYear = new Date().getFullYear();
+
+    function renderCalendar(completedDays) {
+      const grid = document.getElementById('cal-grid');
+      grid.innerHTML = '';
+      const now = new Date();
+      const first = new Date(calYear, calMonth, 1);
+      const last = new Date(calYear, calMonth + 1, 0);
+      const startDow = first.getDay() === 0 ? 6 : first.getDay() - 1;
+      document.getElementById('cal-month').textContent = first.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+      for (let i = 0; i < startDow; i++) {
+        const e = document.createElement('div');
+        e.className = 'cal-day empty';
+        grid.appendChild(e);
+      }
+
+      for (let d = 1; d <= last.getDate(); d++) {
+        const cell = document.createElement('div');
+        cell.className = 'cal-day';
+        const dateObj = new Date(calYear, calMonth, d);
+        const dayName = weekDays[dateObj.getDay() === 0 ? 6 : dateObj.getDay() - 1];
+        if (completedDays[dayName]) cell.classList.add('completed');
+        if (d === now.getDate() && calMonth === now.getMonth() && calYear === now.getFullYear()) cell.classList.add('today');
+        cell.textContent = d;
+        cell.dataset.date = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+        grid.appendChild(cell);
+      }
+    }
+
+    function navMonth(dir) {
+      calMonth += dir;
+      if (calMonth < 0) { calMonth = 11; calYear--; }
+      if (calMonth > 11) { calMonth = 0; calYear++; }
+      renderCalendar(updateCalendarCompleted());
+    }
+
+    // --- MODAL ---
+    function openModal() { document.getElementById('modal').classList.add('open'); }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); }
+    function clearAll() {
+      localStorage.removeItem('mtState');
+      closeModal();
+      render();
+    }
+
+    // --- THEME ---
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      const isDark = document.body.classList.contains('dark-theme');
+      if (isDark) {
+        document.body.classList.remove('dark-theme'); document.body.classList.add('light-theme');
+        document.documentElement.className = 'light-theme'; localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-theme'); document.body.classList.add('dark-theme');
+        document.documentElement.className = 'dark-theme'; localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // --- INIT ---
+    render();
+  </script>
+</body>
+</html>
