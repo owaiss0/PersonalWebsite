@@ -29,13 +29,8 @@
             <a class="nav-link" href="../blog.html">Blog</a>
             <a class="nav-link active" href="../Projects/project.html" aria-current="page">Projects</a>
           </div>  
-          <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
-            <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-            </svg>
-            <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-            </svg>
+          <button id="themeToggle" class="theme-toggle-text-btn nav-link" aria-label="Toggle theme">
+            <span class="theme-toggle-text">dark mode</span>
           </button>
         </div>
       </nav>
@@ -43,28 +38,39 @@
 
     <main>
       <section>
-        <h1 class="mb-2">
+        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 8px;">
           Projects
         </h1>
-        <p style="color: var(--muted); font-size: 15px; margin-bottom: 32px;">A collection of applications and platforms I have built.</p>
+        <p style="color: var(--fg); font-size: 1rem; margin-bottom: 32px;">A collection of applications and platforms I have built.</p>
 
         <div class="projects-grid">
           <!-- PharmaDesk Project -->
-          <div class="project-card">
-            <h2 class="project-title" style="font-size: 22px; font-weight: 800;">PharmaDesk</h2>
-            <p class="project-desc" style="font-size: 16px; margin-top: 8px; margin-bottom: 16px; color: var(--fg); opacity: 0.9;">
-              A comprehensive B2B SaaS platform designed to automate pharmacy inventory, billing, challan processing, and sales tracking. Features smart batch expiry alerts, automated invoice generation, and AI-driven inventory optimization.
+          <div class="project-card" style="border: none; padding: 0; margin-bottom: 40px;">
+            <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 8px;">
+              PharmaDesk — Smart Pharmacy Management SaaS
+            </h2>
+            <p style="font-size: 1rem; color: var(--fg); margin-bottom: 20px; line-height: 1.6;">
+              A comprehensive B2B SaaS platform built specifically to automate pharmacy operations, retail billing workflows, multi-batch inventory tracking, and sales analytics.
             </p>
-            
-            <div class="tech-stack-details" style="font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6;">
-              <strong style="color: var(--fg);">Tech Stack:</strong> Next.js, TanStack Tables, shadcn/ui, PostgreSQL database (hosted on Supabase), Supabase Auth, Razorpay for payments, Resend for transaction emails, and Next.js API routes.
-              <br>
-              <strong style="color: var(--fg);">Future Roadmap:</strong> Rebuilding the backend services in NestJS or Go for maximum horizontal scale.
+
+            <div style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+              <p style="margin-bottom: 10px;">
+                <strong style="color: var(--fg);">Tech Stack:</strong> Next.js, TanStack + Vite, Better Auth, PostgreSQL, Razorpay (Payments), Fastify backend APIs, Turborepo monorepo.
+              </p>
+              <p style="margin-bottom: 10px;">
+                <strong style="color: var(--fg);">Core Features:</strong>
+              </p>
+              <ul style="list-style: disc; padding-left: 20px; margin-bottom: 12px; color: var(--fg);">
+                <li><strong>Dashboard &amp; KPIs:</strong> Real-time monitoring of low stock items, expiring medicines, and total daily sales.</li>
+                <li><strong>Inventory &amp; Batch Tracking:</strong> Full CRUD management with multi-batch expiry dates, automated stock calculation, and hard-block expiry prevention.</li>
+                <li><strong>Invoicing &amp; PDF Export:</strong> Instant retail bill creation, client challans, client PDF generation (jsPDF + html2canvas), and automated real-time stock deduction.</li>
+                <li><strong>Reports &amp; Analytics:</strong> In-depth sales volume analysis, profit margin tracking, and inventory valuation summaries.</li>
+                <li><strong>Subscription System:</strong> Infinity plan model with 7-day trial and server-side feature enforcement.</li>
+              </ul>
             </div>
 
-            <div class="project-links" style="font-size: 14px; font-weight: 700;">
-              <a class="project-link" href="https://www.pharmadesk.in/" target="_blank" rel="noopener noreferrer" style="color: var(--blue-hover);">Live Website</a>
-              <a class="project-link" href="./pharmadesk.html" style="color: var(--fg);">Read Details</a>
+            <div class="project-links" style="font-size: 14px;">
+              <a class="footer-link" href="https://www.pharmadesk.in/" target="_blank" rel="noopener noreferrer">Live Website (pharmadesk.in)</a>
             </div>
           </div>
         </div>
@@ -72,38 +78,39 @@
     </main>
 
     <footer>
-      <ul class="footer-links">
-        <li class="footer-link-item">
-          <a target="_blank" rel="noopener noreferrer" href="https://x.com/zowaiss">
-            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
-            </svg>
-            <p>X (Twitter)</p>
-          </a>
-        </li>
-        <li class="footer-link-item">
-          <a target="_blank" rel="noopener noreferrer" href="https://github.com/owaiss0">
-            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
-            </svg>
-            <p>github</p>
-          </a>
-        </li>
-        <li class="footer-link-item">
-          <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/owaiss0">
-            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
-            </svg>
-            <p>Linkedin</p>
-          </a>
-        </li>
-      </ul>
+      <div class="footer-links">
+        <a target="_blank" rel="noopener noreferrer" href="https://x.com/zowaiss" class="footer-link">X (Twitter)</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/owaiss0" class="footer-link">github</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/owaiss0" class="footer-link">Linkedin</a>
+      </div>
       <p class="copyright">
         &copy; <span id="year">2026</span> owais
       </p>
     </footer>
   </div>
 
-  <script src="../js/main.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      const toggleBtn = document.getElementById('themeToggle');
+      if (toggleBtn) {
+        const updateText = () => {
+          const isDark = document.body.classList.contains('dark-theme');
+          toggleBtn.textContent = isDark ? 'light mode' : 'dark mode';
+        };
+        updateText();
+        toggleBtn.addEventListener('click', function() {
+          const isDark = document.body.classList.contains('dark-theme');
+          const nextTheme = isDark ? 'light' : 'dark';
+          document.body.className = nextTheme + '-theme';
+          document.documentElement.className = nextTheme + '-theme';
+          localStorage.setItem('theme', nextTheme);
+          updateText();
+        });
+      }
+    });
+  </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>owais</title>
+  <title>htmls</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script>
     (function() {
@@ -20,13 +20,12 @@
   <script>
     document.body.className = document.documentElement.className;
   </script>
-
   <div class="container">
     <aside>
       <nav id="nav">
         <div class="nav-container">
           <div class="nav-links-left">
-            <a class="nav-link active" href="./index.html" aria-current="page">Home</a>
+            <a class="nav-link" href="./index.html">Home</a>
             <a class="nav-link" href="./blog.html">Blog</a>
             <a class="nav-link" href="./Projects/project.html">Projects</a>
           </div>  
@@ -39,14 +38,15 @@
 
     <main>
       <section>
-        <p class="lead-p">
-          owais<a href="./htmls.html" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;" class="dot-link">.</a>
-        </p>
+        <h1 style="font-size: 28px; font-weight: 700; margin-bottom: 16px;">
+          htmls
+        </h1>
 
-        <p class="lead-p" style="color: var(--fg); font-size: 1.05rem;">
-          i like math, space, computers, and hate chemistry.
-        </p>
-
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px;">
+          <a href="./htmls/workout.html" class="nav-link" style="font-size: 16px;">Workout Tracker</a>
+          <a href="./htmls/morning-tracker.html" class="nav-link" style="font-size: 16px;">Morning Tracker</a>
+          <a href="./htmls/archived-workout.html" class="nav-link" style="font-size: 16px;">Archived Workout</a>
+        </div>
       </section>
     </main>
 
@@ -66,17 +66,6 @@
     document.addEventListener('DOMContentLoaded', function() {
       const yearEl = document.getElementById('year');
       if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-      const dotTrigger = document.getElementById('dotTrigger');
-      const htmlsMenu = document.getElementById('htmlsMenu');
-      if (dotTrigger && htmlsMenu) {
-        dotTrigger.addEventListener('click', function(e) {
-          e.stopPropagation();
-          const isHidden = htmlsMenu.style.display === 'none';
-          htmlsMenu.style.display = isHidden ? 'block' : 'none';
-          dotTrigger.style.color = isHidden ? 'var(--blue-hover)' : 'inherit';
-        });
-      }
 
       const toggleBtn = document.getElementById('themeToggle');
       if (toggleBtn) {

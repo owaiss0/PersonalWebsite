@@ -29,13 +29,8 @@
             <a class="nav-link active" href="./blog.html" aria-current="page">Blog</a>
             <a class="nav-link" href="./Projects/project.html">Projects</a>
           </div>  
-          <button id="themeToggle" class="theme-toggle-btn" aria-label="Toggle theme">
-            <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-            </svg>
-            <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-            </svg>
+          <button id="themeToggle" class="theme-toggle-text-btn nav-link" aria-label="Toggle theme">
+            <span class="theme-toggle-text">dark mode</span>
           </button>
         </div>
       </nav>
@@ -43,48 +38,49 @@
 
     <main>
       <section>
-        <h1 class="mb-8">
+        <h1 class="mb-8" style="font-size: 28px; font-weight: 700;">
           My Blog
         </h1>
-        <p class="lead-p">
+        <p class="lead-p" style="color: var(--fg); font-size: 1rem;">
           I write my thoughts down in my notebook first. I will publish posts here soon!
         </p>
       </section>
     </main>
 
     <footer>
-      <ul class="footer-links">
-        <li class="footer-link-item">
-          <a target="_blank" rel="noopener noreferrer" href="https://x.com/zowaiss">
-            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
-            </svg>
-            <p>X (Twitter)</p>
-          </a>
-        </li>
-        <li class="footer-link-item">
-          <a target="_blank" rel="noopener noreferrer" href="https://github.com/owaiss0">
-            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
-            </svg>
-            <p>github</p>
-          </a>
-        </li>
-        <li class="footer-link-item">
-          <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/owaiss0">
-            <svg class="footer-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.07102 11.3494L0.963068 10.2415L9.2017 1.98864H2.83807L2.85227 0.454545H11.8438V9.46023H10.2955L10.3097 3.09659L2.07102 11.3494Z" fill="currentColor"/>
-            </svg>
-            <p>Linkedin</p>
-          </a>
-        </li>
-      </ul>
+      <div class="footer-links">
+        <a target="_blank" rel="noopener noreferrer" href="https://x.com/zowaiss" class="footer-link">X (Twitter)</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://github.com/owaiss0" class="footer-link">github</a>
+        <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/owaiss0" class="footer-link">Linkedin</a>
+      </div>
       <p class="copyright">
         &copy; <span id="year">2026</span> owais
       </p>
     </footer>
   </div>
 
-  <script src="./js/main.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+      const toggleBtn = document.getElementById('themeToggle');
+      if (toggleBtn) {
+        const updateText = () => {
+          const isDark = document.body.classList.contains('dark-theme');
+          toggleBtn.textContent = isDark ? 'light mode' : 'dark mode';
+        };
+        updateText();
+        toggleBtn.addEventListener('click', function() {
+          const isDark = document.body.classList.contains('dark-theme');
+          const nextTheme = isDark ? 'light' : 'dark';
+          document.body.className = nextTheme + '-theme';
+          document.documentElement.className = nextTheme + '-theme';
+          localStorage.setItem('theme', nextTheme);
+          updateText();
+        });
+      }
+    });
+  </script>
 </body>
 </html>
