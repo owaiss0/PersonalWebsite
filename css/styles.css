@@ -115,9 +115,9 @@ body {
 
 /* Navigation bar */
 nav {
-  margin-bottom: 40px;
-  border-bottom: 2px solid var(--nav-border);
-  padding-bottom: 16px;
+  margin-bottom: 32px;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .nav-container {
@@ -130,26 +130,26 @@ nav {
 .nav-links-left {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 16px;
 }
 
 .nav-link {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
   text-decoration: none;
-  color: var(--fg);
-  padding: 8px 14px;
-  border-radius: 6px;
+  color: var(--muted);
+  padding: 4px 0;
   transition: all 160ms ease;
 }
 
 .nav-link:hover {
-  color: var(--blue-hover);
+  color: var(--fg);
 }
 
 .nav-link.active {
-  color: var(--blue-hover);
-  background-color: var(--panel);
+  color: var(--fg);
+  font-weight: 700;
+  background-color: transparent;
 }
 
 /* Theme Toggle Button */
@@ -906,14 +906,6 @@ footer {
   }
 }
 
-/* Fixed Theme Toggle */
-.theme-toggle-fixed {
-  position: fixed;
-  top: 24px;
-  right: 24px;
-  z-index: 100;
-}
-
 /* Centered Page Layout */
 .container.centered-layout {
   min-height: 100vh;
@@ -923,6 +915,14 @@ footer {
   align-items: center;
   text-align: center;
   padding: 40px 24px;
+}
+
+.centered-layout nav {
+  width: 100%;
+}
+
+.centered-layout .nav-container {
+  justify-content: space-between;
 }
 
 .centered-layout footer {
