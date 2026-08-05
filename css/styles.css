@@ -905,3 +905,35 @@ footer {
     padding-top: 32px;
   }
 }
+
+/* Fixed Theme Toggle */
+.theme-toggle-fixed {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+}
+
+/* Centered Page Layout */
+.container.centered-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.centered-layout footer {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.centered-layout .footer-links {
+  justify-content: center;
+  flex-direction: row;
+}
+
